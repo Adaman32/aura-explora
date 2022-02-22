@@ -106,7 +106,7 @@ export const World = ({countyArray: {counties, interiors, id}, surroundingCountr
                             d={path(feature)}
                             onClick={() => console.log(feature.properties.aurora)}
                         />
-
+                        return;
                     })
                 }
             </g>
@@ -150,6 +150,7 @@ export const World = ({countyArray: {counties, interiors, id}, surroundingCountr
                             key={feature.properties.longitude + " " + feature.properties.latitude}
                             d={path(feature)}
                         />
+                        return;
                     })
                 }
             </g>
