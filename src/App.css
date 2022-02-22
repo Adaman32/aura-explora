@@ -240,7 +240,7 @@ h3{
 
 .map .cityNames{
   fill: white;
-  opacity: 0.1;
+  opacity: 0.5;
   font: 6pt sans-serif;
   position: absolute;
   /* transform: translate(10%); */
