@@ -1,0 +1,417 @@
+body {
+  overflow: hidden;
+  background: black;
+}
+
+.line{
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+
+.largeContainer{
+  display: flex;
+  position: absolute;
+  height: 100%;
+  flex-direction: column;
+  z-index: 10;
+}
+
+.containerLogo{
+  display: flex;
+  position: relative;
+  background-color: #100e26;
+  width: 300px;
+  height: 10%;
+  min-height: 100px;
+  top: 2vh;
+  left: 2vh;
+  /* flex-direction: column; */
+  align-items: center;
+  flex-wrap: wrap;
+  justify-content: space-evenly;
+  padding: 30px;
+}
+
+.containerFilters{
+  display: flex;
+  position: relative;
+  background-color: #100e26;
+  width: 300px;
+  height: 50vh;
+  min-height: 250px;
+  margin-top: 4vh;
+  margin-bottom: none;
+  left: 2vh;
+  flex-direction: column;
+  align-items: center;
+  flex-wrap: wrap;
+  justify-content: space-evenly;
+  padding-left: 30px;
+  padding-right: 30px;
+  
+}
+
+.containerInfoK {
+  display: none;
+  position: relative;
+  background-color: #100e26;
+  color: white;
+  font-size: 11px;
+  width: 300px;
+  height: 14vh;
+  min-height: 100px;
+  margin-top: 2vh;
+  margin-bottom: none;
+  left: 2vh;
+  flex-direction: column;
+  align-items: center;
+  flex-wrap: wrap;
+  justify-content: space-evenly;
+  padding: 10px;
+  padding-left: 30px;
+  padding-right: 30px;
+}
+
+.containerInfoA {
+  display: flex;
+  position: relative;
+  background-color: #100e26;
+  color: white;
+  font-size: 11px;
+  width: 300px;
+  height: 14vh;
+  min-height: 100px;
+  margin-top: 2vh;
+  margin-bottom: none;
+  left: 2vh;
+  flex-direction: column;
+  align-items: center;
+  flex-wrap: wrap;
+  justify-content: space-evenly;
+  padding: 10px;
+  padding-left: 30px;
+  padding-right: 30px;
+}
+
+.containerDetails{
+  display: flex;
+  position: absolute;
+  background-color: #100e26;
+  color: white;
+  width: 300px;
+  height: 30vh;
+  bottom: 2vh;
+  right: 2vh;
+  flex-direction: column;
+  align-items: right;
+  flex-wrap: wrap;
+  padding: 30px;
+}
+
+
+h2{
+  color: white;
+  font-family: 'Helvetica Neue', sans-serif;
+  font-weight: 800; 
+  font-size: 16px;
+  align-self: baseline;
+  margin: 0;
+}
+
+h3{
+  color: white;
+  font-family: 'Helvetica Neue', sans-serif;
+  font-weight: 800; 
+  font-size: 14px;
+  align-self: baseline;
+  margin: 0;
+}
+
+.checkboxSvg {
+  display: inline-block;
+  /* align-items: center; */
+  vertical-align: bottom;
+}
+
+.checkboxes{
+  display: flex;
+  background-color: #100e26;
+  flex-direction: column;
+  justify-content: space-evenly;
+  width: 100%;
+  height: 75%;
+  color: white;
+  font-size: 12px;
+  align-self: baseline;
+}
+
+.meteoContainer{
+  display: flex;
+  width: 53%;
+  justify-content: space-between;
+}
+
+.aura-explora-logo{
+  width: 300px;
+  height: 100px;
+  background-color: #100e26;
+  position: absolute;
+  top: 30px;
+}
+
+.aura-explora-logo svg{
+  width: 70%;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%,-50%);
+}
+
+.map .land{
+  fill: #100E26;
+  cursor: pointer;
+}
+
+.stations svg{
+  position: absolute;
+}
+
+.innerCircle{
+  opacity: 0;
+}
+
+.stations circle:hover + .hide{
+  display: inline;
+}
+
+
+.hide{
+  display: none;
+}
+
+.stations text{
+  fill: white;
+
+  font-size: 8pt;
+}
+
+.clouds{
+  fill: white;
+}
+
+.map .surrounding-countries{
+  fill: #131526;
+  fill-opacity: 0.3;
+  stroke: #2D2F4B;
+  stroke-width: 1px;
+  stroke-dasharray: 2,2;
+  stroke-linejoin: round;
+}
+
+.map .interiors{
+  fill: none;
+  stroke: #2D2F4B;
+  stroke-width: 0.5px;
+}
+
+.map .sphere{
+  fill: black;
+}
+
+.map .graticules{
+  fill: none;
+  stroke: #3054a7;
+  opacity: 0.1;
+}
+
+.map .cityContainer{
+  position: absolute;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.map .cities{
+  fill: #3054a7;
+  stroke: none;
+  opacity: .5;
+}
+
+.map .cityNames{
+  fill: white;
+  opacity: 0.1;
+  font: 6pt sans-serif;
+  position: absolute;
+  /* transform: translate(10%); */
+  /* left: 50%;
+  top: 50%;
+  transform: translate(-50%,-50%); */
+}
+
+.aurora{
+  opacity: 0.2;
+  /* stroke: white; */
+  fill-opacity: 1;
+  pointer-events: none;
+  /* fill-rule:nonzeroß; */
+  
+}
+
+.kpIndex{
+  opacity: 0.2;
+  fill-opacity: 1;
+  pointer-events: none;
+  fill: #FF0000;
+}
+
+.checkboxLabels{
+  font-family: 'Helvetica Neue', sans-serif;
+  font-size: 10pt;
+  margin-left: 10px;
+  cursor: pointer;
+}
+
+input[type="checkbox"] {
+  clip: rect(0 0 0 0);
+  clip-path: inset(50%);
+  height: 1px;
+  overflow: hidden;
+  position: absolute;
+  white-space: nowrap;
+  width: 1px;
+}
+
+.checkbox--active {
+  /* display: none; */
+  fill: none;
+}
+
+/* Aurora Scale*/
+.level1{
+  fill: #17FFF1;
+}
+
+.level2{
+  fill: #037200;
+}
+
+.level3{
+  fill: #FAFF02;
+}
+
+.level4{
+  fill: #EB9411;
+}
+
+.level5{
+  fill: #FF0000;
+}
+
+.svgScale{
+  margin-top: 30px;
+}
+
+.scaleRect{
+  opacity: 0.4;
+}
+
+.scaleLabels{
+  width: 100%;
+  text-align: center;
+}
+
+.scaleTitle{
+  width: 100%;
+  text-align: center;
+  margin-top: 3%;
+  margin-bottom: 3%;
+}
+
+.scaleLabelChild{
+  width: calc(100%/5);
+  display: inline-block;
+  vertical-align: center;
+  text-align: center;
+  font-size: 0.8em;
+  /* margin: 1%; */
+}
+
+/* Cloud Scale */
+.clevel1{
+  fill: #100e26;
+  stroke: white;
+  stroke-width: 2px;
+  opacity: 0.2;
+}
+
+.clevel2{
+  fill: #ffffff;
+  opacity: 0.2;
+}
+
+.clevel3{
+  fill: #ffffff;
+  opacity: 0.4;
+}
+
+.clevel4{
+  fill: #ffffff;
+  opacity: 0.6;
+}
+
+.clevel5{
+  fill: #ffffff;
+  opacity: 0.8;
+}
+
+/* Detail Info */
+.detailedInfoLabels{
+  font-family: 'Helvetica Neue', sans-serif;
+  font-size: 12pt;
+  margin-left: 10px;
+  cursor: pointer;
+}
+
+/* .map .kp1{
+  fill: lime;
+  opacity: 0.2;
+}
+
+.map .kp2{
+  fill: green;
+}
+
+.map .kp4{
+  fill: yellow;
+}
+
+.map .kp6{
+  fill: orange;
+}
+
+.map .kp8{
+  fill: red;
+} */
+
+.svg-container {
+  display: inline-block;
+  position: relative;
+  width: 100%;
+  padding-bottom: 100%;
+  vertical-align: top;
+  overflow: hidden;
+}
+.svg-content {
+  display: inline-block;
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+#map {
+  position: relative;
+  z-index: 0;
+  width: 100%;
+  height: 500px;
+}
