@@ -24,25 +24,30 @@ export const World = ({countyArray: {counties, interiors, id}, surroundingCountr
             
             <g id="landrender" className='land'>
                 {
-                    countries.features.map(feature => (
-                        <path 
-                            key={feature.properties.name}
-                            className='surrounding-countries'
-                            d={path(feature)}
-                        />
-                    ))
+                    countries.features.map(function(feature) {
+                        return(
+                            <path 
+                                key={feature.properties.name}
+                                className='surrounding-countries'
+                                d={path(feature)}
+                            />
+                        )
+                    } 
+                    )
                 }
                 {
                 
-                    counties.features.map(feature => (  
-                        // land mass
-                        <path 
-                            // className='land'
-                            key={feature.properties.name}
-                            d={path(feature)}
-                            onClick={() => console.log(feature.properties.name)}
-                        />
-                    ))
+                    counties.features.map(function(feature) {
+                        return (  
+                            // land mass
+                            <path 
+                                // className='land'
+                                key={feature.properties.name}
+                                d={path(feature)}
+                                onClick={() => console.log(feature.properties.name)}
+                            />
+                        )
+                    } )
                 }
                 <path 
                     className='interiors'

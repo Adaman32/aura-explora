@@ -20,7 +20,7 @@ export const useSurroundingCountries = () => {
 
   
   if(data){
-    data.countries.features = data.countries.features.filter(function(d) {if( d.properties.name == "Finland" ||  d.properties.name == "Norway" ||  d.properties.name == "Denmark") return true});
+    data.countries.features = data.countries.features.filter(function(d) {if( d.properties.name === "Finland" ||  d.properties.name === "Norway" ||  d.properties.name === "Denmark") return true; else return false});
   }
 
   return data;
