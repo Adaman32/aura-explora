@@ -14,7 +14,7 @@ import Checkbox from './checkbox';
 import { AuroraScale, CloudScale } from './AuroraScale';
 import StationIcon from './images/meteo-station';
 import './DetailedInfo';
-import { DayCloudTime, DayLightTime, DaylightTime } from './DetailedInfo';
+import { DayCloudTime, DayLightTime } from './DetailedInfo';
 
 // const width =  window.innerWidth;
 // const height = window.innerHeight;
@@ -45,7 +45,7 @@ function App() {
   const [visibleS, setVisibleS] = React.useState(true);
   const [visibleA, setVisibleA] = React.useState(true);
   const [visibleK, setVisibleK] = React.useState(false);
-  const [checked, setChecked] = React.useState(true);
+  // const [checked, setChecked] = React.useState(true);
 
   // console.log(counties);
   if (!swedishCities || !counties || !surroundingCountries || !currentAuroraPolygons || !cloudsArray || !kpIndex) {

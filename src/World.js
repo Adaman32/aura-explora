@@ -1,4 +1,4 @@
-import { geoPath, geoGraticule, map} from 'd3';
+import { geoPath, geoGraticule} from 'd3';
 import { geoMercator } from 'd3-geo';
 import  { useWindowSize } from './App';
 import StationIcon from './images/meteo-station';
@@ -50,9 +50,6 @@ export const World = ({countyArray: {counties, interiors, id}, surroundingCountr
                 />
                 {cities.map(d => {
                     const [cityLng, cityLat] = projection([d.lng,d.lat]);
-                    function setCityCircle(){
-                        if(sizeScale(sizeValue(d)) < 3) return "3";
-                        else return sizeScale(sizeValue(d))};
                     
                     return <g className='cityContainer'>
                             <circle className='cities' cx={cityLng} cy={cityLat} r={sizeScale(sizeValue(d))} />
@@ -117,7 +114,7 @@ export const World = ({countyArray: {counties, interiors, id}, surroundingCountr
                                 return low2 + (high2 - low2) * (value - low1) / (high1 - low1);
                             }
                             const dateTime = '2022-02-03 12:00.000000';
-                            const cloudValue = d.TotCloudCoverage.find(element => element.datetime == dateTime);
+                            const cloudValue = d.TotCloudCoverage.find(element => element.datetime === dateTime);
                             if(!cloudValue) return 0;
                             else return map_range(+cloudValue.cloudValue,0,100,0,80);
                         }
