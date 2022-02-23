@@ -3,6 +3,10 @@ body {
   background: black;
 }
 
+a{
+  color: #17FFF1;
+}
+
 .line{
   margin-top: 10px;
   margin-bottom: 10px;
@@ -21,8 +25,8 @@ body {
   position: relative;
   background-color: #100e26;
   width: 300px;
-  height: 10%;
-  min-height: 100px;
+  height: 5%;
+  min-height: 50px;
   top: 2vh;
   left: 2vh;
   /* flex-direction: column; */
@@ -36,40 +40,60 @@ body {
   display: flex;
   position: relative;
   background-color: #100e26;
+  color: white;
   width: 300px;
   height: 50vh;
   min-height: 250px;
+  overflow: scroll;
+  overflow-y: auto;
+  padding-top: 7%;
+  padding-bottom: 7%;
   margin-top: 4vh;
   margin-bottom: none;
   left: 2vh;
   flex-direction: column;
-  align-items: center;
+  /* align-items: center; */
   flex-wrap: wrap;
   justify-content: space-evenly;
   padding-left: 30px;
   padding-right: 30px;
-  
 }
 
 .containerInfoK {
-  display: none;
+  display: flex;
   position: relative;
   background-color: #100e26;
   color: white;
-  font-size: 11px;
+  font-size: 0.6em;
   width: 300px;
-  height: 14vh;
+  height: 23vh;
   min-height: 100px;
   margin-top: 2vh;
   margin-bottom: none;
   left: 2vh;
-  flex-direction: column;
+  overflow: scroll;
+  overflow-y: auto;
   align-items: center;
   flex-wrap: wrap;
-  justify-content: space-evenly;
   padding: 10px;
   padding-left: 30px;
   padding-right: 30px;
+}
+
+::-webkit-scrollbar{
+  width: 10px;
+  height: 0;
+}
+
+::-webkit-scrollbar-track {
+  background: #000; 
+  box-shadow: inset 0 0 5px #1b295c; 
+}
+
+::-webkit-scrollbar-thumb {
+  background: #1b295c; 
+  border-radius: 10px;
+  /* width: 8px; */
 }
 
 .containerInfoA {
@@ -77,20 +101,24 @@ body {
   position: relative;
   background-color: #100e26;
   color: white;
-  font-size: 11px;
+  font-size: 0.6em;
   width: 300px;
-  height: 14vh;
+  height: 23vh;
   min-height: 100px;
   margin-top: 2vh;
   margin-bottom: none;
   left: 2vh;
-  flex-direction: column;
+  overflow: scroll;
+  overflow-y: auto;
   align-items: center;
   flex-wrap: wrap;
-  justify-content: space-evenly;
   padding: 10px;
   padding-left: 30px;
   padding-right: 30px;
+}
+
+.containerInfoA h3{
+  margin-bottom: 3%;
 }
 
 .containerDetails{
@@ -100,9 +128,8 @@ body {
   color: white;
   width: 300px;
   height: 30vh;
-  bottom: 2vh;
+  top: 20vh;
   right: 2vh;
-  flex-direction: column;
   align-items: right;
   flex-wrap: wrap;
   padding: 30px;
@@ -113,7 +140,7 @@ h2{
   color: white;
   font-family: 'Helvetica Neue', sans-serif;
   font-weight: 800; 
-  font-size: 16px;
+  font-size: 1.2em;
   align-self: baseline;
   margin: 0;
 }
@@ -122,7 +149,7 @@ h3{
   color: white;
   font-family: 'Helvetica Neue', sans-serif;
   font-weight: 800; 
-  font-size: 14px;
+  font-size: 1.3em;
   align-self: baseline;
   margin: 0;
 }
@@ -135,14 +162,25 @@ h3{
 
 .checkboxes{
   display: flex;
-  background-color: #100e26;
   flex-direction: column;
-  justify-content: space-evenly;
+  /* justify-content: space-evenly; */
   width: 100%;
   height: 75%;
   color: white;
-  font-size: 12px;
+  font-size: 0.625em;
   align-self: baseline;
+}
+
+@media screen and (min-height: 700px) {
+  .checkboxes{
+    justify-content:space-evenly;
+  }
+  
+}
+
+.checkboxes h2{
+  margin-bottom: 5%;
+  font-size: 2em;
 }
 
 .meteoContainer{
@@ -152,15 +190,15 @@ h3{
 }
 
 .aura-explora-logo{
-  width: 300px;
-  height: 100px;
+  width: 150px;
+  height: 50px;
   background-color: #100e26;
   position: absolute;
   top: 30px;
 }
 
 .aura-explora-logo svg{
-  width: 70%;
+  width: 100%;
   position: absolute;
   top: 50%;
   left: 50%;
@@ -192,7 +230,7 @@ h3{
 .stations text{
   fill: white;
 
-  font-size: 8pt;
+  font-size: 0.6em;
 }
 
 .clouds{
@@ -241,7 +279,8 @@ h3{
 .map .cityNames{
   fill: white;
   opacity: 0.5;
-  font: 6pt sans-serif;
+  font: 'Helvetica-Neue', sans-serif;
+  font-size: 0.4em;
   position: absolute;
   /* transform: translate(10%); */
   /* left: 50%;
@@ -262,14 +301,20 @@ h3{
   opacity: 0.2;
   fill-opacity: 1;
   pointer-events: none;
-  fill: #FF0000;
+  /* fill: #FF0000; */
 }
 
 .checkboxLabels{
   font-family: 'Helvetica Neue', sans-serif;
-  font-size: 10pt;
+  font-size: 1.4em;
   margin-left: 10px;
+  display: inline-block;
   cursor: pointer;
+}
+
+.stationIconLegend {
+  position: absolute;
+  left: 50%;
 }
 
 input[type="checkbox"] {
@@ -288,12 +333,19 @@ input[type="checkbox"] {
 }
 
 /* Aurora Scale*/
+
+.level0{
+  fill: #3054a7;
+  opacity: 0.3;
+}
+
 .level1{
   fill: #17FFF1;
 }
 
 .level2{
   fill: #037200;
+  opacity: 0.3;
 }
 
 .level3{
@@ -309,7 +361,8 @@ input[type="checkbox"] {
 }
 
 .svgScale{
-  margin-top: 30px;
+  margin-top: 5%;
+  
 }
 
 .scaleRect{
@@ -318,6 +371,7 @@ input[type="checkbox"] {
 
 .scaleLabels{
   width: 100%;
+  /* justify-content: space-evenly; */
   text-align: center;
 }
 
@@ -328,51 +382,61 @@ input[type="checkbox"] {
   margin-bottom: 3%;
 }
 
-.scaleLabelChild{
+.scaleLabelChildFive{
   width: calc(100%/5);
   display: inline-block;
   vertical-align: center;
   text-align: center;
-  font-size: 0.8em;
   /* margin: 1%; */
 }
 
+.scaleLabelChildSix{
+  width: calc(100%/6);
+  display: inline-block;
+  vertical-align: center;
+  text-align: center;
+  /* margin: 1%; */
+}
+
+.hidden{
+  display: none;
+}
+
 /* Cloud Scale */
-.clevel1{
+.cloudScale1{
   fill: #100e26;
   stroke: white;
   stroke-width: 2px;
   opacity: 0.2;
 }
 
-.clevel2{
+.cloudScale2{
   fill: #ffffff;
   opacity: 0.2;
 }
 
-.clevel3{
+.cloudScale3{
   fill: #ffffff;
   opacity: 0.4;
 }
 
-.clevel4{
+.cloudScale4{
   fill: #ffffff;
   opacity: 0.6;
 }
 
-.clevel5{
+.cloudScale5{
   fill: #ffffff;
   opacity: 0.8;
 }
 
-/* Detail Info */
-.detailedInfoLabels{
-  font-family: 'Helvetica Neue', sans-serif;
-  font-size: 12pt;
-  margin-left: 10px;
-  cursor: pointer;
+.day{
+  fill: #ffff9c;
 }
 
+.night{
+  fill: black;
+}
 /* .map .kp1{
   fill: lime;
   opacity: 0.2;

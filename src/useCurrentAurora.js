@@ -2,7 +2,7 @@ import { json } from 'd3';
 import {useState, useEffect} from 'react';
 // import { feature, mesh } from 'topojson';
 
-const jsonUrl = 'https://gist.githubusercontent.com/Adaman32/4c5b37ce2796a59768a8bbe5b07120fa/raw/bf4ff3b4de4cd38979466be29c96f592b213ff9b/currentAuroraPolygons.json';
+const jsonUrl = 'https://gist.githubusercontent.com/Adaman32/94dcbad0c9574e9e9d8f261e6aae984b/raw/1189524fb9b1511711727ce76f08d89108ff51c2/currentAuroraSimulation.json';
 
 export const useCurrentAurora = () => {
   const [data, setData] = useState(null);
