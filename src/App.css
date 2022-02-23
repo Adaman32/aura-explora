@@ -60,7 +60,7 @@ a{
 }
 
 .containerInfoK {
-  display: flex;
+  display: none;
   position: relative;
   background-color: #100e26;
   color: white;
