@@ -29,8 +29,8 @@ def main():
 def SunAuroraPropabilty():
     kpLong = [*range(10,26,3)]
     kpLat = [*range(55,71,3)]
-    sun = json.load(open("AuraExplora\data files\sunKpSwe.json"))
-    kp = json.load(open(r"AuraExplora\data files\coords_convertion.json"))
+    sun = json.load(open(r"AuraExplora\extras\data files\sunKp_points.json"))
+    kp = json.load(open(r"AuraExplora\extras\data files\coords_convertion.json"))
 
     for datevalue in sun.values():
      
@@ -48,7 +48,7 @@ def SunAuroraPropabilty():
                 
             elif datevalue['kp-value'] < kp[closestKpCoord]['required_kp']:
                 feature['properties']['viewAurora'] = False
-    outSun = open("AuraExplora\data files\sunAuroraSwe.json", "w")
+    outSun = open("sunkpSwe.json", "w")
     json.dump(sun, outSun)
 
 
@@ -108,7 +108,7 @@ def FilterSunKpData():
     return
 
 def Sun2GeoPolygon():
-    sun = json.load(open(r"AuraExplora\data files\sunKp_points.json"))
+    sun = json.load(open(r"sunkpSwe.json"))
 
     geoPolys = {}
     geoPoly = { 
@@ -128,7 +128,7 @@ def Sun2GeoPolygon():
             value['properties']['latitude']= lat
             value['geometry']['coordinates'] = polygon['coordinates']
               
-    outSun = open(r"AuraExplora\data files\sunKp_polygon.json", "w")
+    outSun = open(r"sunKp_polygon.json", "w")
     json.dump(sun, outSun)
 
     return

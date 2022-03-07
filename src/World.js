@@ -1,17 +1,23 @@
-import { geoPath, geoGraticule} from 'd3';
+import { geoPath, geoGraticule, pointer} from 'd3';
 import { geoMercator } from 'd3-geo';
 import  { useWindowSize } from './App';
 import StationIcon from './images/meteo-station';
 import {rewind} from '@turf/turf';
+import { useState } from 'react';
+// import { abs, pow, sqrt } from 'd3-geo/src/math';
 
 
 export const World = ({
     filtered,
     hovered,
+    lockedA,
+    lockedC,
+    lockedK,
     countyArray: {counties, interiors, id},
     surroundingCountries: {countries},
     clouds,
     dateTime,
+    date,
     kpIndex,
     kpClass,
     visibleC,
@@ -21,44 +27,100 @@ export const World = ({
     currentAurora,
     cities,
     sizeScale,
-    sizeValue }) => {
+    fontSizeScale,
+    sizeValue,
+    setSelected,
+    setSunset, 
+    dateHistogramSize
+}) => {
+
+        
 
     const [width, height] = useWindowSize();
     const projection = geoMercator()
                         .center([15,63])
-                        .translate([width/2, height/2])
-                        .scale(width*0.80)
+                        .translate([width/2, height*(1-dateHistogramSize)/2])
+                        .scale(width*0.65)
     const path = geoPath().projection(projection);
     const graticule = geoGraticule().step([1,1]);
     // console.log(counties.features.name);
     
+    // console.log(clouds);
 
-    let auroraOpacity = 1;
-    let cloudsOpacity = 1;
-    let kpOpacity = 1;
+        
+/// selecting the nearest weather station to the selected location
+    function findClosestWeatherStation(selectedLocation){
+        let closestDistance = null;
+        let closestStation = clouds[0];
+        clouds.forEach(cloudLocation => {
+            let cloudValue = cloudLocation.TotCloudCoverage.find(element => element.datetime === dateTime);
+            let a = selectedLocation[0] - cloudLocation.longitude;
+            let b = selectedLocation[1] - cloudLocation.latitude;
+            let distance = Math.sqrt(Math.pow(a,2)+Math.pow(2*b,2));
+            // console.log(cloudLocation.name +" coordinates: " + cloudLocation.longitude +" " +cloudLocation.latitude+" clicked: " + selectedLocation[0]+" "+ selectedLocation[1]+ " distance: "+ distance);
+            if(closestDistance === null || distance < closestDistance && cloudValue){
+                closestDistance = distance;
+                closestStation = cloudLocation;
+            }
+        });
+        setSelected(closestStation);
 
+        /// setting sunset
+        let selectedSunset = null;
+        let closestDistanceSunset = 99999999999999999999999;
+        // let arrayOfSunsets = kpIndex[date.toLocaleDateString('en-CA')]['sunGeojson'].features;
+        kpIndex.forEach(point => {
+
+            let lat = +point.properties.latitude;
+            let lon = +point.properties.longitude;
+            let a = closestStation.longitude - lon;
+            let b = closestStation.latitude - lat;
+            let distance = Math.sqrt(Math.pow(a,2)+Math.pow(2*b,2));
+            // // console.log(cloudLocation.name +" coordinates: " + cloudLocation.longitude +" " +cloudLocation.latitude+" clicked: " + selectedLocation[0]+" "+ selectedLocation[1]+ " distance: "+ distance);
+            if(selectedSunset === null || distance < closestDistanceSunset){
+                closestDistanceSunset = distance;
+                selectedSunset = point;
+            }
+        });
+        setSunset(selectedSunset);
+    }
+
+    
+    // if(filtered)console.log(clouds[0].longitude);
+    //     console.log(selectedCoordinates[0]);
+
+    let auroraOpacity;
+    let cloudsOpacity;
+    let kpOpacity;
+
+    // if(!locked) {
+    //     auroraOpacity = 1;
+    //     cloudsOpacity = 1;
+    //     kpOpacity = 1;
+    // } 
+    // console.log(lockedA +" "+ lockedC + " " + lockedK);
     if(!hovered) {
-        auroraOpacity = 1;
-        cloudsOpacity = 1;
-        kpOpacity = 1;
+        if(!lockedA) auroraOpacity = 1;
+        if(!lockedC) cloudsOpacity = 1;
+        if(!lockedK) kpOpacity = 1;
     } 
+
+
     if(hovered === 'kp') {
-        auroraOpacity = 0.1;
-        cloudsOpacity = 0.2;
-        kpOpacity = 0.2;
+        kpOpacity = 0;
     } 
     if(hovered === 'clouds') {
-        auroraOpacity = 0.1;
-        cloudsOpacity = 0.2;
-        kpOpacity = 0.2;
+        cloudsOpacity = 0;
     } 
     if(hovered === 'aurora') {
-        auroraOpacity = 0.1;
-        cloudsOpacity = 0.2;
-        kpOpacity = 0.2;
+        auroraOpacity = 0;
     } 
- 
     
+    if(lockedA) auroraOpacity = 0;
+    if(lockedC) cloudsOpacity = 0;
+    if(lockedK) kpOpacity = 0;
+    
+
 
     if(filtered)
     return (
@@ -88,7 +150,7 @@ export const World = ({
                                 // className='land'
                                 key={feature.properties.name}
                                 d={path(feature)}
-                                onClick={() => console.log(feature.properties.name)}
+                                onClick={e => findClosestWeatherStation(projection.invert(pointer(e)))}
                             />
                         )
                     } )
@@ -98,11 +160,12 @@ export const World = ({
                     d={path(interiors)}
                 />
                 {cities.map(d => {
-                    const [cityLng, cityLat] = projection([d.lng,d.lat]);
+                    const [cityLng, cityLat] = projection([d.lng,d.lat]);    
+                    var fontS = fontSizeScale(sizeValue(d));              
                     
                     return <g key={d.city} className='cityContainer'>
-                            <circle className='cities' cx={cityLng} cy={cityLat} r={sizeScale(sizeValue(d))} />
-                            <text className='cityNames' x={cityLng + sizeScale(sizeValue(d))*1.2} y={cityLat + sizeScale(sizeValue(d))/2}>{d.city}</text>
+                            <circle onClick={() => findClosestWeatherStation([d.lng,d.lat])} className='cities' cx={cityLng} cy={cityLat} r={sizeScale(sizeValue(d))}/>
+                            <text style={{fontSize:fontS}} className='cityNames' x={cityLng + 3} y={cityLat + sizeScale(sizeValue(d))/2}>{d.city}</text>
                         </g>
                 })}
             </g>
@@ -120,35 +183,35 @@ export const World = ({
                             className='aurora level1'
                             key={feature.properties.longitude + " " + feature.properties.latitude}
                             d={path(feature)}
-                            onMouseEnter={() => console.log(feature.properties.aurora)}
+                            // onMouseEnter={() => console.log(feature.properties.aurora)}
                         />
                         else if(feature.properties.aurora >= 20 && feature.properties.aurora < 40 ) 
                         return  <path 
                             className='aurora level2'
                             key={feature.properties.longitude + " " + feature.properties.latitude}
                             d={path(feature)}
-                            onMouseEnter={() => console.log(feature.properties.aurora)}
+                            // onMouseEnter={() => console.log(feature.properties.aurora)}
                         />
                         else if(feature.properties.aurora >= 40 && feature.properties.aurora < 60 ) 
                         return  <path 
                             className='aurora level3'
                             key={feature.properties.longitude + " " + feature.properties.latitude}
                             d={path(feature)}
-                            onMouseEnter={() => console.log(feature.properties.aurora)}
+                            // onMouseEnter={() => console.log(feature.properties.aurora)}
                         />
                         else if(feature.properties.aurora >= 60 && feature.properties.aurora < 80 ) 
                         return  <path 
                             className='aurora level4'
                             key={feature.properties.longitude + " " + feature.properties.latitude}
                             d={path(feature)}
-                            onMouseEnter={() => console.log(feature.properties.aurora)}
+                            // onMouseEnter={() => console.log(feature.properties.aurora)}
                         />
                         else if(feature.properties.aurora >= 80 && feature.properties.aurora <= 100 ) 
                         return  <path 
                             className='aurora level5'
                             key={feature.properties.longitude + " " + feature.properties.latitude}
                             d={path(feature)}
-                            onMouseEnter={() => console.log(feature.properties.aurora)}
+                            // onMouseEnter={() => console.log(feature.properties.aurora)}
                         />
 
                     })
@@ -164,7 +227,7 @@ export const World = ({
                             // }
                             
                             let cloudValue = d.TotCloudCoverage.find(element => element.datetime === dateTime);
-                            
+
                             if(!cloudValue) return false;
                             else if(cloudValue.cloudValue >= 0 && cloudValue.cloudValue < 20) return 0;
                             else if(cloudValue.cloudValue >= 20 && cloudValue.cloudValue < 40) return 20;
@@ -176,10 +239,10 @@ export const World = ({
                         if(cloudValue===false) return; 
                         else return <g key={d.name}  >
                             {/* 1st circle creates cloud circles, station Icon is the icon in the middle, 2nd circle is invisible - only used for the hover interaction, text is the station's name */}
-                            <circle className={visibleC ? 'clouds':'hide'} style={{opacity: cloudValue/100}} cx={stationLng} cy={stationLat} r={20}/>  
+                            <circle className={visibleC ? 'clouds':'hide'} onClick={() => {setSelected(d)}} style={{fillOpacity: cloudValue/100}} cx={stationLng} cy={stationLat} r={10}/>  
                                 <g className={visibleS ? 'stations':'hide'}>
-                                <StationIcon x={stationLng} y={stationLat} width={10} height={10}/> 
-                                <circle className='innerCircle' cx={stationLng} cy={stationLat} r={10} />
+                                <StationIcon x={stationLng} y={stationLat} width={7} height={7}/> 
+                                <circle onClick={() => findClosestWeatherStation([d.longitude,d.latitude])} className='innerCircle' cx={stationLng} cy={stationLat} r={10} />
                                 <text className='hide' x={stationLng +10} y={stationLat}>{d.name}</text>
                                 </g>
                             </g>
@@ -278,10 +341,10 @@ export const World = ({
                             if(cloudValue===false) return; 
                             else return <g key={d.name}  >
                                 {/* 1st circle creates cloud circles, station Icon is the icon in the middle, 2nd circle is invisible - only used for the hover interaction, text is the station's name */}
-                                <circle className={visibleC ? 'clouds':'hide'} style={{opacity: cloudValue/100}} cx={stationLng} cy={stationLat} r={20}/>  
+                                <circle className={visibleC ? 'clouds':'hide'} onClick={() => {setSelected(d)}} style={{fillOpacity: cloudValue/100}} cx={stationLng} cy={stationLat} r={10}/>  
                                     <g className={visibleS ? 'stations':'hide'}>
-                                    <StationIcon x={stationLng} y={stationLat} width={10} height={10}/> 
-                                    <circle className='innerCircle' cx={stationLng} cy={stationLat} r={10} />
+                                    <StationIcon x={stationLng} y={stationLat} width={7} height={7}/> 
+                                    <circle onClick={() => {findClosestWeatherStation([d.longitude,d.latitude])}} className='innerCircle' cx={stationLng} cy={stationLat} r={10} />
                                     <text className='hide' x={stationLng +10} y={stationLat}>{d.name}</text>
                                     </g>
                                 </g>

@@ -3,10 +3,10 @@ import json
 def main():
 
     # Interpolate and covert to geojson, type: polygons, for current aurora 
-    currentAuroraGeo = json.load(open("AuraExplora\data files\currentAurora3febFiltered.json"))
+    currentAuroraGeo = json.load(open("AuraExplora\extras\data files\currentAurora3febFiltered.json"))
     currentAuroraPolygon = interpolate(currentAuroraGeo)
 
-    outputCurrentAurora = open("AuraExplora/data files/aurora_3feb_polygonGeo.json", "w")
+    outputCurrentAurora = open("AuraExplora/extras/data files/aurora_3feb_polygonGeo.json", "w")
     json.dump(currentAuroraPolygon, outputCurrentAurora)
 
     # Interpolate and convert to geojson, type: polygons, for sun data

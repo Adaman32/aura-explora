@@ -1,0 +1,611 @@
+[
+  {
+    "2022": 1515017,
+    "name": "Stockholm"
+  },
+  {
+    "2022": 572799,
+    "name": "Goeteborg"
+  },
+  {
+    "2022": 301706,
+    "name": "Malmoe"
+  },
+  {
+    "2022": 149245,
+    "name": "Uppsala"
+  },
+  {
+    "2022": 139606,
+    "name": "Sollentuna"
+  },
+  {
+    "2022": 127323,
+    "name": "Soedermalm"
+  },
+  {
+    "2022": 117746,
+    "name": "Vaesteras"
+  },
+  {
+    "2022": 115765,
+    "name": "OErebro"
+  },
+  {
+    "2022": 106502,
+    "name": "Linkoeping"
+  },
+  {
+    "2022": 104250,
+    "name": "Helsingborg"
+  },
+  {
+    "2022": 93797,
+    "name": "Joenkoeping"
+  },
+  {
+    "2022": 93765,
+    "name": "Norrkoeping"
+  },
+  {
+    "2022": 90182,
+    "name": "Huddinge"
+  },
+  {
+    "2022": 87244,
+    "name": "Lund"
+  },
+  {
+    "2022": 83249,
+    "name": "Umea"
+  },
+  {
+    "2022": 74968,
+    "name": "Haninge"
+  },
+  {
+    "2022": 74884,
+    "name": "Gaevle"
+  },
+  {
+    "2022": 71700,
+    "name": "Boras"
+  },
+  {
+    "2022": 70777,
+    "name": "Soedertaelje"
+  },
+  {
+    "2022": 69363,
+    "name": "Kungsholmen"
+  },
+  {
+    "2022": 67359,
+    "name": "Eskilstuna"
+  },
+  {
+    "2022": 66909,
+    "name": "Solna"
+  },
+  {
+    "2022": 66124,
+    "name": "Halmstad"
+  },
+  {
+    "2022": 65383,
+    "name": "Vaexjoe"
+  },
+  {
+    "2022": 61492,
+    "name": "Karlstad"
+  },
+  {
+    "2022": 61000,
+    "name": "Bromma"
+  },
+  {
+    "2022": 59430,
+    "name": "Moelndal"
+  },
+  {
+    "2022": 58458,
+    "name": "Vasastan"
+  },
+  {
+    "2022": 58123,
+    "name": "Taby"
+  },
+  {
+    "2022": 57606,
+    "name": "Sundsvall"
+  },
+  {
+    "2022": 49806,
+    "name": "OEstersund"
+  },
+  {
+    "2022": 48573,
+    "name": "Trollhaettan"
+  },
+  {
+    "2022": 43574,
+    "name": "Lulea"
+  },
+  {
+    "2022": 42466,
+    "name": "Lidingoe"
+  },
+  {
+    "2022": 41955,
+    "name": "Borlaenge"
+  },
+  {
+    "2022": 40832,
+    "name": "Tumba"
+  },
+  {
+    "2022": 39762,
+    "name": "Kristianstad"
+  },
+  {
+    "2022": 38408,
+    "name": "Kalmar"
+  },
+  {
+    "2022": 37000,
+    "name": "Falun"
+  },
+  {
+    "2022": 36842,
+    "name": "Skoevde"
+  },
+  {
+    "2022": 36534,
+    "name": "Upplands Vaesby"
+  },
+  {
+    "2022": 36477,
+    "name": "Karlskrona"
+  },
+  {
+    "2022": 36418,
+    "name": "OEstermalm"
+  },
+  {
+    "2022": 35516,
+    "name": "Skelleftea"
+  },
+  {
+    "2022": 34781,
+    "name": "Uddevalla"
+  },
+  {
+    "2022": 34529,
+    "name": "Sundbyberg"
+  },
+  {
+    "2022": 34248,
+    "name": "Varberg"
+  },
+  {
+    "2022": 32659,
+    "name": "Akersberga"
+  },
+  {
+    "2022": 32493,
+    "name": "OErnskoeldsvik"
+  },
+  {
+    "2022": 32229,
+    "name": "Landskrona"
+  },
+  {
+    "2022": 32224,
+    "name": "Nykoeping"
+  },
+  {
+    "2022": 31937,
+    "name": "Vallentuna"
+  },
+  {
+    "2022": 30944,
+    "name": "Motala"
+  },
+  {
+    "2022": 29316,
+    "name": "Trelleborg"
+  },
+  {
+    "2022": 29254,
+    "name": "Majorna"
+  },
+  {
+    "2022": 28648,
+    "name": "Partille"
+  },
+  {
+    "2022": 27490,
+    "name": "Karlskoga"
+  },
+  {
+    "2022": 27034,
+    "name": "Maersta"
+  },
+  {
+    "2022": 26913,
+    "name": "Lerum"
+  },
+  {
+    "2022": 26329,
+    "name": "Alingsas"
+  },
+  {
+    "2022": 25170,
+    "name": "Nacka"
+  },
+  {
+    "2022": 24724,
+    "name": "Sandviken"
+  },
+  {
+    "2022": 24101,
+    "name": "Kungaelv"
+  },
+  {
+    "2022": 24099,
+    "name": "Falkenberg"
+  },
+  {
+    "2022": 24052,
+    "name": "Boo"
+  },
+  {
+    "2022": 24046,
+    "name": "Jakobsberg"
+  },
+  {
+    "2022": 23402,
+    "name": "Visby"
+  },
+  {
+    "2022": 23283,
+    "name": "Katrineholm"
+  },
+  {
+    "2022": 23240,
+    "name": "AEngelholm"
+  },
+  {
+    "2022": 23119,
+    "name": "Vaenersborg"
+  },
+  {
+    "2022": 23088,
+    "name": "Bjoerlanda"
+  },
+  {
+    "2022": 23067,
+    "name": "Pitea"
+  },
+  {
+    "2022": 22988,
+    "name": "Lidkoeping"
+  },
+  {
+    "2022": 22553,
+    "name": "Enkoeping"
+  },
+  {
+    "2022": 21500,
+    "name": "Huskvarna"
+  },
+  {
+    "2022": 21178,
+    "name": "Vaestervik"
+  },
+  {
+    "2022": 20774,
+    "name": "Gustavsberg"
+  },
+  {
+    "2022": 20112,
+    "name": "Karlshamn"
+  },
+  {
+    "2022": 19365,
+    "name": "Norrtaelje"
+  },
+  {
+    "2022": 19309,
+    "name": "Haessleholm"
+  },
+  {
+    "2022": 19061,
+    "name": "Vaernamo"
+  },
+  {
+    "2022": 18806,
+    "name": "Ystad"
+  },
+  {
+    "2022": 18698,
+    "name": "Kungsbacka"
+  },
+  {
+    "2022": 18592,
+    "name": "Esloev"
+  },
+  {
+    "2022": 18557,
+    "name": "Kristinehamn"
+  },
+  {
+    "2022": 18426,
+    "name": "Haernoesand"
+  },
+  {
+    "2022": 18355,
+    "name": "Koeping"
+  },
+  {
+    "2022": 18287,
+    "name": "Oskarshamn"
+  },
+  {
+    "2022": 17719,
+    "name": "Naessjoe"
+  },
+  {
+    "2022": 17579,
+    "name": "Moelnlycke"
+  },
+  {
+    "2022": 17170,
+    "name": "Falkoeping"
+  },
+  {
+    "2022": 17083,
+    "name": "Tensta"
+  },
+  {
+    "2022": 17037,
+    "name": "Kiruna"
+  },
+  {
+    "2022": 16877,
+    "name": "Rasunda"
+  },
+  {
+    "2022": 16830,
+    "name": "Boden"
+  },
+  {
+    "2022": 16807,
+    "name": "Arsta"
+  },
+  {
+    "2022": 16663,
+    "name": "Kumla"
+  },
+  {
+    "2022": 16231,
+    "name": "Gamla Uppsala"
+  },
+  {
+    "2022": 16122,
+    "name": "Mariestad"
+  },
+  {
+    "2022": 16081,
+    "name": "Hudiksvall"
+  },
+  {
+    "2022": 16000,
+    "name": "Tullinge"
+  },
+  {
+    "2022": 15785,
+    "name": "Ljungby"
+  },
+  {
+    "2022": 15373,
+    "name": "Staffanstorp"
+  },
+  {
+    "2022": 15245,
+    "name": "Ludvika"
+  },
+  {
+    "2022": 15019,
+    "name": "Kinna"
+  },
+  {
+    "2022": 14889,
+    "name": "Hoellviken"
+  },
+  {
+    "2022": 14874,
+    "name": "Billdal"
+  },
+  {
+    "2022": 14778,
+    "name": "Hoeganaes"
+  },
+  {
+    "2022": 14550,
+    "name": "Tranas"
+  },
+  {
+    "2022": 14532,
+    "name": "Nynaeshamn"
+  },
+  {
+    "2022": 13926,
+    "name": "Arvika"
+  },
+  {
+    "2022": 13716,
+    "name": "Bollnaes"
+  },
+  {
+    "2022": 13693,
+    "name": "Straengnaes"
+  },
+  {
+    "2022": 13605,
+    "name": "Skoghall"
+  },
+  {
+    "2022": 13430,
+    "name": "Vetlanda"
+  },
+  {
+    "2022": 13138,
+    "name": "Balsta"
+  },
+  {
+    "2022": 13093,
+    "name": "Stenungsund"
+  },
+  {
+    "2022": 13087,
+    "name": "Sala"
+  },
+  {
+    "2022": 13048,
+    "name": "Bunkeflostrand"
+  },
+  {
+    "2022": 13039,
+    "name": "Nybro"
+  },
+  {
+    "2022": 12858,
+    "name": "Mjoelby"
+  },
+  {
+    "2022": 12807,
+    "name": "Finspang"
+  },
+  {
+    "2022": 12665,
+    "name": "Oxie"
+  },
+  {
+    "2022": 12612,
+    "name": "Ronneby"
+  },
+  {
+    "2022": 12602,
+    "name": "Mora"
+  },
+  {
+    "2022": 12368,
+    "name": "Lomma"
+  },
+  {
+    "2022": 12275,
+    "name": "Onsala"
+  },
+  {
+    "2022": 12259,
+    "name": "Soederhamn"
+  },
+  {
+    "2022": 12152,
+    "name": "Hoeoer"
+  },
+  {
+    "2022": 11949,
+    "name": "Avesta"
+  },
+  {
+    "2022": 11936,
+    "name": "Fagersta"
+  },
+  {
+    "2022": 11796,
+    "name": "Svedala"
+  },
+  {
+    "2022": 11524,
+    "name": "Handen"
+  },
+  {
+    "2022": 11505,
+    "name": "Ekeroe"
+  },
+  {
+    "2022": 11437,
+    "name": "Skara"
+  },
+  {
+    "2022": 11400,
+    "name": "Alby"
+  },
+  {
+    "2022": 11157,
+    "name": "Oxeloesund"
+  },
+  {
+    "2022": 11117,
+    "name": "Noedinge-Nol"
+  },
+  {
+    "2022": 10942,
+    "name": "Lindome"
+  },
+  {
+    "2022": 10841,
+    "name": "Arboga"
+  },
+  {
+    "2022": 10787,
+    "name": "Hallstahammar"
+  },
+  {
+    "2022": 10757,
+    "name": "Jordbro"
+  },
+  {
+    "2022": 10629,
+    "name": "Ulricehamn"
+  },
+  {
+    "2022": 10602,
+    "name": "Bjuv"
+  },
+  {
+    "2022": 10536,
+    "name": "Segeltorp"
+  },
+  {
+    "2022": 10495,
+    "name": "Timra"
+  },
+  {
+    "2022": 10362,
+    "name": "Gaellivare"
+  },
+  {
+    "2022": 10254,
+    "name": "Kista"
+  },
+  {
+    "2022": 10180,
+    "name": "Gislaved"
+  },
+  {
+    "2022": 10157,
+    "name": "Eksjoe"
+  },
+  {
+    "2022": 10151,
+    "name": "Kungsaengen"
+  },
+  {
+    "2022": 10129,
+    "name": "Torslanda"
+  }
+ 
+ 
