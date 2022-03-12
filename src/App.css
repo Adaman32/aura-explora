@@ -431,6 +431,7 @@ h3{
 
 .innerCircle{
   opacity: 0;
+  cursor: pointer;
 }
 
 .stations circle:hover + .hide{
