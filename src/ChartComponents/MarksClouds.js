@@ -1,5 +1,5 @@
 import React from 'react'; 
-import { area, extent, scaleTime, curveMonotoneX} from 'd3';
+import { area, extent, scaleTime, curveMonotoneX, defined} from 'd3';
 
 export function MarksClouds ({data, innerWidth, yScale}) {
     /* data = data.filter(element => 
@@ -24,6 +24,7 @@ export function MarksClouds ({data, innerWidth, yScale}) {
         <g className="marks">
             <path fill='white' opacity='0.8' stroke='white'
                 d={area()
+                    .defined(d => (d.cloudValue != null))
                     .curve(curveMonotoneX)
                     .x(d => xScale(xValue(d)))
                     .y1(d => yScale(yValue(d)))

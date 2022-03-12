@@ -17,7 +17,6 @@ export const World = ({
     surroundingCountries: {countries},
     clouds,
     dateTime,
-    date,
     kpIndex,
     kpClass,
     visibleC,
@@ -30,11 +29,12 @@ export const World = ({
     fontSizeScale,
     sizeValue,
     setSelected,
+    selectedStation,
     setSunset, 
-    dateHistogramSize
+    dateHistogramSize,
+    originalCloudsArray,
 }) => {
 
-        
 
     const [width, height] = useWindowSize();
     const projection = geoMercator()
@@ -45,7 +45,7 @@ export const World = ({
     const graticule = geoGraticule().step([1,1]);
     // console.log(counties.features.name);
     
-    // console.log(clouds);
+    // console.log(kpIndex);
 
         
 /// selecting the nearest weather station to the selected location
@@ -56,6 +56,7 @@ export const World = ({
             let cloudValue = cloudLocation.TotCloudCoverage.find(element => element.datetime === dateTime);
             let a = selectedLocation[0] - cloudLocation.longitude;
             let b = selectedLocation[1] - cloudLocation.latitude;
+            // console.log(selectedLocation[0]);
             let distance = Math.sqrt(Math.pow(a,2)+Math.pow(2*b,2));
             // console.log(cloudLocation.name +" coordinates: " + cloudLocation.longitude +" " +cloudLocation.latitude+" clicked: " + selectedLocation[0]+" "+ selectedLocation[1]+ " distance: "+ distance);
             if(closestDistance === null || distance < closestDistance && cloudValue){
@@ -64,7 +65,6 @@ export const World = ({
             }
         });
         setSelected(closestStation);
-
         /// setting sunset
         let selectedSunset = null;
         let closestDistanceSunset = 99999999999999999999999;
@@ -150,7 +150,7 @@ export const World = ({
                                 // className='land'
                                 key={feature.properties.name}
                                 d={path(feature)}
-                                onClick={e => findClosestWeatherStation(projection.invert(pointer(e)))}
+                                // onClick={e => findClosestWeatherStation(projection.invert(pointer(e)))}
                             />
                         )
                     } )
@@ -159,6 +159,23 @@ export const World = ({
                     className='interiors'
                     d={path(interiors)}
                 />
+
+                {/* using KP index array to create a clickable grid on top of the map */}
+                <g opacity={0} id="clickableGrid">
+                {
+                    kpIndex.map( feature => {
+                        
+                        feature = rewind(feature,{reverse:true});
+
+                        return <path
+                            // className={}
+                            key={"clickable grid " + feature.properties.longitude + " " + feature.properties.latitude}
+                            d={path(feature)}
+                            onClick={() => findClosestWeatherStation([feature.properties.longitude, feature.properties.latitude])}
+                        />
+                    })
+                }
+            </g>
                 {cities.map(d => {
                     const [cityLng, cityLat] = projection([d.lng,d.lat]);    
                     var fontS = fontSizeScale(sizeValue(d));              
@@ -220,12 +237,17 @@ export const World = ({
             <g opacity={cloudsOpacity}>
                 {
                     clouds.map( d => {
+                        // stationCounter++;
                         const [stationLng, stationLat] = projection([d.longitude,d.latitude]); // getting the right values on the map for longitude and latitude, so that I am able to transform:translate the icons
                         function getCloudValue(){ // getting the cloud value for a specific date
                             // function map_range(value, low1, high1, low2, high2) { // remapping 0-100% opacity to 0-80%, so that you can see beneath the circles
                             //     return low2 + (high2 - low2) * (value - low1) / (high1 - low1);
                             // }
+                            // console.log(d);
+                            // console.log(stationCounter);
                             
+                            // console.log();
+
                             let cloudValue = d.TotCloudCoverage.find(element => element.datetime === dateTime);
 
                             if(!cloudValue) return false;
@@ -237,15 +259,26 @@ export const World = ({
                         }
                         const cloudValue = getCloudValue();
                         if(cloudValue===false) return; 
-                        else return <g key={d.name}  >
+                        else if(selectedStation === d) return <g key={d.name}  >
                             {/* 1st circle creates cloud circles, station Icon is the icon in the middle, 2nd circle is invisible - only used for the hover interaction, text is the station's name */}
-                            <circle className={visibleC ? 'clouds':'hide'} onClick={() => {setSelected(d)}} style={{fillOpacity: cloudValue/100}} cx={stationLng} cy={stationLat} r={10}/>  
+                            <circle className={visibleC ? 'cloudsSelected':'hide'} onClick={() => {setSelected(d)}} style={{fillOpacity: cloudValue/100}} cx={stationLng} cy={stationLat} r={10}/>  
                                 <g className={visibleS ? 'stations':'hide'}>
-                                <StationIcon x={stationLng} y={stationLat} width={7} height={7}/> 
+                                <StationIcon fill={'red'} x={stationLng} y={stationLat} width={7} height={7}/> 
                                 <circle onClick={() => findClosestWeatherStation([d.longitude,d.latitude])} className='innerCircle' cx={stationLng} cy={stationLat} r={10} />
                                 <text className='hide' x={stationLng +10} y={stationLat}>{d.name}</text>
+                                <text style={visibleC ? {fontSize: '0.4em', fill: 'red'} : {fontSize: '0.3em', fill: 'red'}} x={visibleC ? stationLng +10 : stationLng +5} y={visibleC ? stationLat+10 : stationLat+6}>{clouds.indexOf(d)+1}</text>
                                 </g>
                             </g>
+                        else return <g key={d.name}>
+                        {/* 1st circle creates cloud circles, station Icon is the icon in the middle, 2nd circle is invisible - only used for the hover interaction, text is the station's name */}
+                        <circle className={visibleC ? 'clouds':'hide'} onClick={() => {setSelected(d)}} style={{fillOpacity: cloudValue/100}} cx={stationLng} cy={stationLat} r={10}/>  
+                            <g className={visibleS ? 'stations':'hide'}>
+                                <StationIcon fill={'white'} x={stationLng} y={stationLat} width={7} height={7}/> 
+                                <circle onClick={() => findClosestWeatherStation([d.longitude,d.latitude])} className='innerCircle' cx={stationLng} cy={stationLat} r={10} />
+                                <text className='hide' x={stationLng +10} y={stationLat}>{d.name}</text>
+                                <text style={visibleC ? {fontSize: '0.4em'} : {fontSize: '0.3em'}} x={visibleC ? stationLng +10 : stationLng +5} y={visibleC ? stationLat+10 : stationLat+6}>{clouds.indexOf(d)+1}</text>
+                            </g>
+                        </g>
                     })
                 }
             </g>
@@ -322,12 +355,17 @@ export const World = ({
                 <g>
                     {
                         clouds.map( d => {
+                            let index;
+
+                            originalCloudsArray.forEach(element => {
+                                if(element.name === d.name) index = originalCloudsArray.indexOf(element);
+                            });
                             const [stationLng, stationLat] = projection([d.longitude,d.latitude]); // getting the right values on the map for longitude and latitude, so that I am able to transform:translate the icons
                             function getCloudValue(){ // getting the cloud value for a specific date
                                 // function map_range(value, low1, high1, low2, high2) { // remapping 0-100% opacity to 0-80%, so that you can see beneath the circles
                                 //     return low2 + (high2 - low2) * (value - low1) / (high1 - low1);
                                 // }
-                                
+
                                 let cloudValue = d.TotCloudCoverage.find(element => element.datetime === dateTime);
                                 
                                 if(!cloudValue) return false;
@@ -339,15 +377,26 @@ export const World = ({
                             }
                             const cloudValue = getCloudValue();
                             if(cloudValue===false) return; 
-                            else return <g key={d.name}  >
+                            else if(selectedStation === d) return <g key={d.name}  >
                                 {/* 1st circle creates cloud circles, station Icon is the icon in the middle, 2nd circle is invisible - only used for the hover interaction, text is the station's name */}
-                                <circle className={visibleC ? 'clouds':'hide'} onClick={() => {setSelected(d)}} style={{fillOpacity: cloudValue/100}} cx={stationLng} cy={stationLat} r={10}/>  
+                                <circle className={visibleC ? 'cloudsSelected':'hide'} onClick={() => {setSelected(d)}} style={{fillOpacity: cloudValue/100}} cx={stationLng} cy={stationLat} r={10}/>  
                                     <g className={visibleS ? 'stations':'hide'}>
-                                    <StationIcon x={stationLng} y={stationLat} width={7} height={7}/> 
+                                    <StationIcon fill={'red'} x={stationLng} y={stationLat} width={7} height={7}/> 
                                     <circle onClick={() => {findClosestWeatherStation([d.longitude,d.latitude])}} className='innerCircle' cx={stationLng} cy={stationLat} r={10} />
                                     <text className='hide' x={stationLng +10} y={stationLat}>{d.name}</text>
+                                    <text style={visibleC ? {fontSize: '0.4em', fill: 'red'} : {fontSize: '0.3em', fill: 'red'}} x={visibleC ? stationLng +10 : stationLng +5} y={visibleC ? stationLat+10 : stationLat+6}>{index+1}</text>
                                     </g>
+                                </g> 
+                            else return <g key={d.name}  >
+                            {/* 1st circle creates cloud circles, station Icon is the icon in the middle, 2nd circle is invisible - only used for the hover interaction, text is the station's name */}
+                            <circle className={visibleC ? 'clouds':'hide'} onClick={() => {setSelected(d)}} style={{fillOpacity: cloudValue/100}} cx={stationLng} cy={stationLat} r={10}/>  
+                                <g className={visibleS ? 'stations':'hide'}>
+                                    <StationIcon fill={'white'} x={stationLng} y={stationLat} width={7} height={7}/> 
+                                    <circle onClick={() => {findClosestWeatherStation([d.longitude,d.latitude])}} className='innerCircle' cx={stationLng} cy={stationLat} r={10} />
+                                    <text className='hide' x={stationLng +10} y={stationLat}>{d.name}</text>
+                                    <text style={visibleC ? {fontSize: '0.4em'} : {fontSize: '0.3em'}} x={visibleC ? stationLng +10 : stationLng +5} y={visibleC ? stationLat+10 : stationLat+6}>{index+1}</text>
                                 </g>
+                            </g> 
                         })
                     }
                 </g>

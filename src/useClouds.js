@@ -2,7 +2,7 @@ import { json } from 'd3';
 import {useState, useEffect} from 'react';
 // import { feature, mesh } from 'topojson';
 
-const jsonUrl = 'https://gist.githubusercontent.com/Amandisen/b9caad066f69056a850647f7ad59cb38/raw/8dc1dd8650e38b6cbc21ffcd3fe90b005e3c9459/totalCloudsFiltered.json';
+const jsonUrl = 'https://gist.githubusercontent.com/Adaman32/f4176d6858cd1e17c9564289c9e99b98/raw/80586989423921a27d7efabe881294d98bf85dc8/cloudCoverage2.json';
 
 export const useClouds = () => {
   const [data, setData] = useState(null);

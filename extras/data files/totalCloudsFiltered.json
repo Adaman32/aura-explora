@@ -21293,38 +21293,6 @@
             }
         ]
     },
-    "52230": {
-        "longitude": 12.8167,
-        "latitude": 55.3837,
-        "name": "Falsterbo",
-        "TotCloudCoverage": [
-            {
-                "timestamp": 1643544000000,
-                "datetime": "2022-01-30 13:00.000000",
-                "cloudValue": "0"
-            },
-            {
-                "timestamp": 1643554800000,
-                "datetime": "2022-01-30 16:00.000000",
-                "cloudValue": "0"
-            },
-            {
-                "timestamp": 1643911200000,
-                "datetime": "2022-02-03 19:00.000000",
-                "cloudValue": "100"
-            },
-            {
-                "timestamp": 1644213600000,
-                "datetime": "2022-02-07 07:00.000000",
-                "cloudValue": "25"
-            },
-            {
-                "timestamp": 1644224400000,
-                "datetime": "2022-02-07 10:00.000000",
-                "cloudValue": "0"
-            }
-        ]
-    },
     "52240": {
         "longitude": 12.8166,
         "latitude": 55.3837,

@@ -5,7 +5,7 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  overflow: hidden;
+  overflow-y: auto;
   background: black;
 }
 
@@ -43,8 +43,6 @@ h3{
   margin: 0;
 }
 
-
-
 .line{
   color: white;
   margin-top: 10px;
@@ -65,100 +63,71 @@ h3{
   
 }
 
-.largeContainer{
-  display: flex;
-  position: absolute;
-  /* height: 80%; */
-  flex-direction: column;
-  z-index: 10;
-}
-
-.selectWrapper{
-  position: absolute;
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  /* width: 100%; */
-  background-color: #100e26;
-  transform: translate(0, -100%);
-}
-.selectWrapper p{
-  padding-right: 20px;
-  font-size: 0.8em;
-  color: white;
-  margin-left: 20px;
-  transform: translate(0, 0%);
-}
-
-.timelineContainer{
-  position: absolute;
-  width: calc(100% - 40px);
-  height: 20%;
-  bottom: 20px;
-  left: 50%;
-  transform: translate(-50%,0);
-  background-color: #100e26;
-  /* text-align: center; */
-  /* align-items:b/ ; */
-}
-
-/* .containerTime{
-  display: flex;
-  position: absolute;
-  background-color: ;
-  color: white;
-  width: 900px;
-  height: 3vh;
-  bottom: 2vh;
-  right: 2vh;
-  padding: 10px;
-  align-items: center;
-  justify-content: space-evenly;
-} */
-
 .containerLogo{
   display: flex;
-  position: relative;
+  position: absolute;
   background-color: #100e26;
-  width: 300px;
-  height: 5%;
-  min-height: 50px;
-  top: 20px;
-  left: 20px;
+  width: 20%;
+  max-width: 300px;
+  height: 4vh;  
   /* flex-direction: column; */
   align-items: center;
   flex-wrap: wrap;
   justify-content: space-evenly;
   padding: 30px;
+  z-index: 10;
 }
-
 
 .containerFilters{
   display: flex;
-  position: relative;
+  position: absolute;
   background-color: #100e26;
   color: white;
-  width: 300px;
-  height: 50vh;
-  min-height: 250px;
-  max-height: 400px;
+  top: 90vh;
+  right: 0;
+  left: 0;
   overflow: scroll;
   overflow-y: auto;
-  padding-top: 2%;
-  padding-bottom: 7%;
-  margin-top: 40px;
-  margin-bottom: none;
-  left: 20px;
   flex-direction: column;
   /* align-items: center; */
   flex-wrap: wrap;
-  justify-content: space-evenly;
-  padding-left: 30px;
-  padding-right: 30px;
+  padding: 20px;
+  padding-bottom: 30px;
+  z-index: 10;
+}
+
+.checkboxSvg {
+  display: inline-block;
+  /* align-items: center; */
+  vertical-align: bottom;
+}
+
+.checkboxes{
+  display: flex;
+  flex-direction: column;
+  /* justify-content: space-evenly; */
+  width: 100%;
+  height: 75%;
+  color: white;
+  font-size: 0.5em;
+  align-self: baseline;
+}
+
+@media screen and (min-height: 700px) {
+  .checkboxes{
+    justify-content:space-evenly;
+  }
+  
+}
+
+.meteoContainer{
+  display: flex;
+  width: 53%;
+  justify-content: space-between;
 }
 
 .popup {
-  position: relative;
+  position: absolute;
   display: inline-block;
   cursor: pointer;
   -webkit-user-select: none;
@@ -170,18 +139,17 @@ h3{
 .popup .containerInfo {
   visibility: hidden;
   position: absolute;
+  left: 10vw;
+  bottom: 10vh;
   z-index: 100;
   background-color: #202e4b;
   color: white;
-  font-size: 0.6em;
-  width: 300px;
-  height: 17vh;
-  min-height: 100px;
-  max-height: 200px;
+  font-size: 0.8em;
+  width: 50vh;
+
   /* margin-top: 2vh; */
   margin-bottom: none;
-  left: calc(400px + 1vh);
-  top: -400px;
+  
   overflow: scroll;
   overflow-y: auto;
   align-items: center;
@@ -207,6 +175,107 @@ h3{
   from {opacity: 0;}
   to {opacity:1 ;}
 }
+
+.containerDetails{
+  align-items: center;
+  display: flex;
+  position: absolute;
+  background-color: #100e26;
+  color: white;
+  width: 180px;
+  right: 0;
+  top: 18vh;
+  height: 30vh;
+  overflow: scroll;
+  overflow-y: auto;
+  flex-wrap: wrap;
+  padding: 20px;
+  z-index: 10;
+}
+
+.divDaylight{
+  height: 50px;
+  width: 100%;
+  display: flex;
+  justify-content: space-evenly;
+  flex-wrap: wrap;
+  margin-top: 20px;
+  margin-bottom: 10px;
+}
+
+.daylight{
+  color: white;
+  width: 90px;
+  display: flex;
+  flex-direction: column;
+}
+
+.infoDaylight{
+  font-size: 1em;
+  font-weight: 400;
+  align-self: center;
+  top: 0;
+  margin-left: 10px;
+}
+
+.textDaylight{
+  font-size: 0.7em;
+  font-weight: 400;
+}
+
+
+.selectWrapper{
+  position: absolute;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  /* width: 100%; */
+  background-color: #100e26;
+  transform: translate(0, -100%);
+}
+.selectWrapper p{
+  padding-right: 20px;
+  font-size: 0.8em;
+  color: white;
+  margin-left: 20px;
+  transform: translate(0, 0%);
+}
+
+.timelineContainer{
+  position: absolute;
+  width: 100%;
+  height: 20%;
+  bottom: 10vh;
+  left: 50%;
+  transform: translate(-50%,0);
+  background-color: #100e26;
+  -webkit-touch-callout: none; /* iOS Safari */
+  -webkit-user-select: none; /* Safari */
+   -khtml-user-select: none; /* Konqueror HTML */
+     -moz-user-select: none; /* Old versions of Firefox */
+      -ms-user-select: none; /* Internet Explorer/Edge */
+          user-select: none;
+  /* text-align: center; */
+  /* align-items:b/ ; */
+}
+
+/* .containerTime{
+  display: flex;
+  position: absolute;
+  background-color: ;
+  color: white;
+  width: 900px;
+  height: 3vh;
+  bottom: 2vh;
+  right: 2vh;
+  padding: 10px;
+  align-items: center;
+  justify-content: space-evenly;
+} */
+
+
+
+
 
 .dropdown {
   /* position: absolute; */
@@ -266,7 +335,6 @@ h3{
 
 .timelineWrapper{
   text-align: center;
-
 }
 
 .timelineBottom{
@@ -324,8 +392,8 @@ h3{
   width: 150px;
   position: absolute;
   z-index: 10;
-  right: 70px;
-  top: 10px;
+  top: 0.5vh;
+  right: 10vw;
   text-align: center;
 }
 
@@ -333,52 +401,7 @@ h3{
   margin-top: 5px;
 }
 
-.containerDetails{
-  display: flex;
-  position: absolute;
-  background-color: #100e26;
-  color: white;
-  width: 300px;
-  height: 40vh;
-  top: 20vh;
-  max-height: 300px;
-  overflow: scroll;
-  overflow-y: auto;
-  right: 20px;
-  align-items: right;
-  flex-wrap: wrap;
-  padding: 30px;
-}
 
-.checkboxSvg {
-  display: inline-block;
-  /* align-items: center; */
-  vertical-align: bottom;
-}
-
-.checkboxes{
-  display: flex;
-  flex-direction: column;
-  /* justify-content: space-evenly; */
-  width: 100%;
-  height: 75%;
-  color: white;
-  font-size: 0.625em;
-  align-self: baseline;
-}
-
-@media screen and (min-height: 700px) {
-  .checkboxes{
-    justify-content:space-evenly;
-  }
-  
-}
-
-.meteoContainer{
-  display: flex;
-  width: 53%;
-  justify-content: space-between;
-}
 
 .aura-explora-logo{
   width: 150px;
@@ -386,6 +409,7 @@ h3{
   background-color: #100e26;
   position: absolute;
   top: 30px;
+  cursor: pointer;
 }
 
 .aura-explora-logo svg{
@@ -429,6 +453,14 @@ h3{
   stroke: white;
   stroke-dasharray: 1px;
   stroke-opacity: 0.8;
+  cursor: pointer;
+}
+
+.cloudsSelected{
+  fill: white;
+  stroke: red;
+  /* stroke-dasharray: 1px; */
+  /* stroke-opacity: 0.8; */
   cursor: pointer;
 }
 
@@ -571,17 +603,10 @@ input[type="checkbox"] {
 /* .daylightScale{
   position: absolute;
   left: 10px;
-}
+}*/
 
-.divDaylight{
-  position: relative;
-  height: 110px;
-} */
 
-.textDaylight span{
-  font-size: 0.7em;
-  font-weight: 400;
-}
+
 
 .scaleLabelChildFive{
   width: calc(100%/5);
@@ -698,9 +723,78 @@ input[type="checkbox"] {
 }
 
 #map {
-  position: relative;
+  position: absolute;
   z-index: 0;
   width: 100%;
   height: 500px;
 }
+
+
+@media screen and (min-width: 800px){
+  body{
+    overflow: hidden;
+  }
+  .containerFilters{
+    width: 31%;
+    top: 120px;
+    max-width: 300px;
+    padding-left: 30px;
+    padding-right: 30px;
+  }
+  .timelineContainer{
+    bottom: 0;
+  }
+  .containerDetails{
+    top:40vh;
+    height: 300px;
+    width: 25%;
+    max-width: 300px;
+  }
+  .cityLegend{
+    right: 10vh;
+  }
+  .popup .containerInfo{
+    left: 40vh;
+    bottom: 63vh;
+  }
+}
+
+@media screen and (max-height: 1000px) {
+  .containerDetails{
+    top: 10vh;
+    min-height: 40vh;
+  }
+  
+}
+
+@media screen and (max-height: 800px) and (min-width: 800px){
+  body{
+    overflow: auto;
+  }
+  .aura-explora-logo{
+    top: 1vh;
+  }
+  .containerFilters{
+    top: 13vh;
+  }
+  .timelineContainer{
+    top: 90vh;
+  }
+  .popup .containerInfo{
+    bottom: 40vh;
+  }
+  
+}
+
+@media screen and (max-height: 600px) {
+  .timelineContainer{
+    top: 100vh;
+  }
+  .containerDetails{
+    top: 14vh;
+  }
+  
+}
+
+
 

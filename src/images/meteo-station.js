@@ -1,8 +1,8 @@
-const StationIcon = ({width, height, x, y}) => {
+const StationIcon = ({width, height, x, y, fill}) => {
 return (<svg width={width} height={height} x={x-width/2} y={y-width/2} viewBox="0 0 194 204" version="1.1" xmlns="http://www.w3.org/2000/svg">
         <title>Group 3</title>
         <g id="Page-1" stroke="none" strokeWidth="1" fill="none" fillRule="evenodd">
-            <g id="Group-3" fill="#FFFFFF">
+            <g id="Group-3" fill={fill}>
                 <circle id="Oval" cx="98" cy="24" r="24"></circle>
                 <circle id="Oval-Copy-9" cx="24" cy="136" r="24"></circle>
                 <circle id="Oval-Copy-10" cx="170" cy="136" r="24"></circle>

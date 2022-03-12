@@ -18,7 +18,7 @@ import { Timeline } from './Timeline';
 
 // const width =  window.innerWidth;
 // const height = window.innerHeight;
-
+// console.log(node --trace-deprecation);'onBeforeSetupMiddleware
 
 export const useWindowSize = () => {
   const [size, setSize] = useState([window.innerWidth, window.innerHeight]);
@@ -53,11 +53,54 @@ function App() {
   const [timelineMode, setTimelineMode] = useState('Cloudiness')
   // if(selectedLocation)console.log(selectedLocation.latitude);
 
+  // const [zoomX, setZoomX] = React.useState(1);
+  // const [zoomY, setZoomY] = React.useState(1);
+  // const [zoomScale, setZoomScale] = useState(1);
+
+  // function setZoom(e){
+  //   setZoomScale(e.scale);
+  //       setZoomX(e.translation.x);
+  //       setZoomY(e.translation.y);
+  //       console.log(zoomScale);
+  // }
+
+  // console.log(zoomX);
   let kpClass = null;
 
 
   const start = new Date(2022, 0, 27);
   const end = new Date(2022, 1, 10, 23, 59);
+
+  function getDaysArray(start, end) {
+    for(var arr=[],dt=new Date(start); dt<=end; dt.setDate(dt.getDate()+1)){
+        arr.push(new Date(dt));
+    }
+    return arr;
+  };
+
+  function getTimesArray(date){
+    const end = new Date(date).setHours(date.getHours()+23);
+    for(var arr=[], dt=new Date(date); dt<=end; dt.setHours(dt.getHours()+1)){
+      arr.push(new Date(dt));
+    }
+    return arr;
+  }
+
+  const daterange = getDaysArray(start, end);
+  if(selectedLocation!==null){
+  daterange.forEach((date) => { 
+    let locDate = selectedLocation.TotCloudCoverage.filter(element => element.datetime.includes(date.toLocaleDateString('en-CA')));
+    let timeRange = getTimesArray(date);
+    timeRange.forEach((time) => {
+      let exists = locDate.find(element => element.timestamp === time.getTime());
+      if(exists === undefined){
+        selectedLocation.TotCloudCoverage.push({"timestamp":time.getTime(), datetime:dateTime(time), cloudValue:null})
+      }
+    })
+  });
+  selectedLocation.TotCloudCoverage.sort((a, b) => a.timestamp - b.timestamp);
+  }
+
 
   function dateTime(date) {
     const formattedDate = `${date.getFullYear().toString()}-${(date.getMonth() + 1).toString().padStart(2, '0')}-${date.getDate().toString().padStart(2, '0')} ${date.getHours().toString().padStart(2, '0')}:${date.getMinutes().toString().padStart(2, '0')}.${date.getSeconds().toString().padStart(2, '0')}${date.getMilliseconds().toString().padStart(4, '0')}`
@@ -74,14 +117,13 @@ function App() {
   let filteredAurora = [];
   let filteredKP = [];
   let filteredKPClass = kpClass;
-
   //const dateTime = '2022-02-03 12:00.000000';
 
   if (!swedishCities || !counties || !surroundingCountries || !currentAuroraPolygons || !cloudsArray || !kpIndex) {
     return <pre>Loading...</pre>
   }
 
-  ///// Setting KP Color
+  //// Setting KP Color
   if (+kpIndex[date.toLocaleDateString('en-CA')]['kp-value'] >= 0.0 && +kpIndex[date.toLocaleDateString('en-CA')]['kp-value'] < 2.0) kpClass = 'kpIndex kpScale1';
   if (+kpIndex[date.toLocaleDateString('en-CA')]['kp-value'] >= 2.0 && +kpIndex[date.toLocaleDateString('en-CA')]['kp-value'] < 3.0) kpClass = 'kpIndex kpScale2';
   if (+kpIndex[date.toLocaleDateString('en-CA')]['kp-value'] >= 3.0 && +kpIndex[date.toLocaleDateString('en-CA')]['kp-value'] < 4.0) kpClass = 'kpIndex kpScale3';
@@ -440,157 +482,27 @@ function App() {
     }
   }
 
+  function refreshPage() {
+    window.location.reload(false);
+  }
 
-
+  function selectCancle() {
+    setSelectedLocation(null);
+  }
 
   const dateHistogramSize = 0.2;
 
   return (
     <>
-      <div className='largeContainer'>
-        <div className="containerLogo">
-          <div className="aura-explora-logo">
-            <AuraExploraLogo /></div>
-        </div>
 
-
-        <div className='containerFilters'>
-          <div className="checkboxes">
-            <h1>Filter by layers</h1>
-            <div>
-              <Checkbox className="checkbox" onClickEvent={auroraClick} isChecked={!visibleA} id="auroraCheckbox" labelText="Current probability of Aurora Borealis" />
-
-              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" className="qlogo" width='16px'>
-                <circle r="8px" className='infoClick' />
-                <path d="M504 256c0 136.997-111.043 248-248 248S8 392.997 8 256C8 119.083 119.043 8 256 8s248 111.083 248 248zM262.655 90c-54.497 0-89.255 22.957-116.549 63.758-3.536 5.286-2.353 
-                  12.415 2.715 16.258l34.699 26.31c5.205 3.947 12.621 3.008 16.665-2.122 17.864-22.658 30.113-35.797 57.303-35.797 20.429 0 45.698 
-                  13.148 45.698 32.958 0 14.976-12.363 22.667-32.534 33.976C247.128 238.528 216 254.941 216 296v4c0 6.627 5.373 12 12 12h56c6.627 0 12-5.373 12-12v-1.333c0-28.462 
-                  83.186-29.647 83.186-106.667 0-58.002-60.165-102-116.531-102zM256 338c-25.365 0-46 20.635-46 46 0 25.364 20.635 46 46 46s46-20.636 46-46c0-25.365-20.635-46-46-46z"
-                />
-                <circle className="infoClick" cx="50%" cy="50%" r="50%" onClick={auroraInfoClick} onMouseOver={auroraInfoHover} onMouseLeave={auroraInfoLeave} ></circle>
-              </svg>
-
-              <div id="auroraScale">
-                <AuroraScale
-                  onHover={setHoveredValue}
-                  lockedValueSetter={handleScaleClickAurora}
-                  totalWidth={300}
-                  maxHeight={30}
-                  labels={["5-20%", "20-40%", "40-60%", "60-80%", "80-100%"]}
-                  ids={["a0", "a1", "a2", "a3", "a4"]}
-                  scaleTitle="% probability of seeing Aurora Borealis" />
-              </div>
-              {/* <input className="checkbox" type="checkbox" name="stations" id="auroraCheckbox" onClick={() => setVisibleA(!visibleA)} defaultChecked={checked}
-              onChange={() => setChecked(!checked)} />
-              <label className="checkboxLabels" htmlFor="auroraCheckbox">Current probability of Aurora Borealis</label>  */}
-            </div>
-
-            <hr className='line' size="1" width="100%" color="white"></hr>
-            <div>
-              <Checkbox className="checkbox" onClickEvent={kpIndexClick} isChecked={!visibleK} id="kpIndexCheckbox" labelText="Kp-index" />
-              <svg className="qlogo" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width='15px' >
-                <path d="M504 256c0 136.997-111.043 248-248 248S8 392.997 8 256C8 119.083 119.043 8 256 8s248 111.083 248 248zM262.655 90c-54.497 0-89.255 22.957-116.549 63.758-3.536 5.286-2.353 
-              12.415 2.715 16.258l34.699 26.31c5.205 3.947 12.621 3.008 16.665-2.122 17.864-22.658 30.113-35.797 57.303-35.797 20.429 0 45.698 
-              13.148 45.698 32.958 0 14.976-12.363 22.667-32.534 33.976C247.128 238.528 216 254.941 216 296v4c0 6.627 5.373 12 12 12h56c6.627 0 12-5.373 12-12v-1.333c0-28.462 
-              83.186-29.647 83.186-106.667 0-58.002-60.165-102-116.531-102zM256 338c-25.365 0-46 20.635-46 46 0 25.364 20.635 46 46 46s46-20.636 46-46c0-25.365-20.635-46-46-46z"/>
-                <circle className="infoClick" cx="50%" cy="50%" r="50%" onClick={kpInfoClick} onMouseOver={kpInfoHover} onMouseLeave={kpInfoLeave}></circle>
-              </svg>
-              <div id="kpScale" className='hidden'>
-                <KPScale
-                  onHover={setHoveredValue}
-                  lockedValueSetter={handleScaleClickKP}
-                  totalWidth={300}
-                  maxHeight={30}
-                  labels={["1", "2", "3", "4", "5", "6+"]}
-                  ids={["kp0", "kp1", "kp2", "kp3", "kp4", "kp5"]}
-                  scaleTitle="KP index" />
-                <p>Hovering over the scale will show you the minimum KP value needed to have a possibility of seeing aurora in the highlighted area</p>
-              </div>
-            </div>
-
-            <hr className='line' size="1" width="100%" color="white"></hr>
-            <div id="cloudScale" >
-              <Checkbox className="checkbox" onClickEvent={cloudClick} isChecked={!visibleC} id="cloudCheckbox" labelText="Cloudiness" />
-              <CloudScale
-                onHover={setHoveredValue}
-                lockedValueSetter={handleScaleClickClouds}
-                totalWidth={300}
-                maxHeight={30}
-                labels={["0-20%", "20-40%", "40-60%", "60-80%", "80-100%"]}
-                ids={["c0", "c1", "c2", "c3", "c4"]}
-                scaleTitle="% of cloud coverage" />
-              {/* <input className="checkbox" type="checkbox" name="clouds" id="cloudCheckbox" onClick={() => setVisibleC(!visibleC)} defaultChecked={checked}
-              onChange={() => setChecked(!checked)}></input>
-              <label className="checkboxLabels" htmlFor="cloudCheckbox">Cloudiness</label> */}
-            </div>
-            <hr className='line' size="1" width="100%" color="white"></hr>
-            <div className="meteoContainer">
-              <Checkbox className="checkbox" onClickEvent={stationClick} isChecked={!visibleS} id="stationCheckbox" labelText="Weather stations" />
-              <svg className="stationIconLegend" width={20} height={20} x={20 / 2} y={20 / 2} viewBox="0 0 194 204" version="1.1" xmlns="http://www.w3.org/2000/svg">
-                <title>Group 3</title>
-                <g id="Page-1" stroke="none" strokeWidth="1" fill="none" fillRule="evenodd">
-                  <g id="Group-3" fill="#FFFFFF">
-                    <circle id="Oval" cx="98" cy="24" r="24"></circle>
-                    <circle id="Oval-Copy-9" cx="24" cy="136" r="24"></circle>
-                    <circle id="Oval-Copy-10" cx="170" cy="136" r="24"></circle>
-                    <rect id="Rectangle" x="93" y="39" width="10" height="66"></rect>
-                    <rect id="Rectangle-Copy-38" x="89" y="94" width="18" height="110"></rect>
-                    <rect id="Rectangle-Copy-36" transform="translate(67.000000, 112.000000) rotate(-120.000000) translate(-67.000000, -112.000000) " x="62" y="79" width="10" height="66"></rect>
-                    <rect id="Rectangle-Copy-37" transform="translate(129.000000, 112.000000) scale(-1, 1) rotate(-120.000000) translate(-129.000000, -112.000000) " x="124" y="79" width="10" height="66"></rect>
-                    <rect id="Rectangle" x="67" y="186" width="62" height="18"></rect>
-                  </g>
-                </g>
-              </svg>
-              {/* <StationIcon className="stationIconLegend" style="position: absolute" width="20px" height="20px" x={0} y={0}/> */}
-              {/* <input className="checkbox" type="checkbox" name="stations" id="stationsCheckbox" onClick={() => setVisibleS(!visibleS)} defaultChecked={checked}
-              onChange={() => setChecked(!checked)}></input>
-              <label className="checkboxLabels" htmlFor="stationsCheckbox">Meteorological stations stations</label>  */}
-            </div>
-          </div>
-        </div>
-
-        <div className="popup" onClick={kpInfoClick}>
-          <div id="kp" className="containerInfo">
-
-            <div><h3>What is the Kp index?</h3><p>The Kp index is a measurement of geomagnetic activity in Earth’s atmosphere. It can serve as an
-              indicator of whether geomagnetic events (such as an aurora) are likely to happen. Based on its value,
-              it is possible to estimate how far south geomagnetic activity can occur.<br></br><br></br>
-              Learn more at the <a href="https://www.swpc.noaa.gov/">Space Weather Prediction Center </a>
-            </p></div>
-
-          </div>
-        </div>
-        <div className="popup" onClick={auroraInfoClick}>
-          <div id="aurora" className="containerInfo">
-
-            <div><h3>What is the aurora?</h3> <p>Aurora Borealis is a phenomenon which can be seen in the skies around the north pole. It occurs
-              when solar wind particles accelerate into the upper parts
-              of Earth's atmosphere, disturbing the magnetosphere. There has to be darkness and clear skies
-              in order to see the aurora.<br></br><br></br>
-              The probability of seeing aurora computed through the OVATION model, which depends on solar wind
-              velocity and geomagnetic activity. If the solar wind data is not avaiable, an estimation can be made
-              based on the measured Kp index.
-              <br></br><br></br>
-              Learn more at the <a href="https://www.swpc.noaa.gov/">Space Weather Prediction Center </a>
-            </p></div>
-          </div>
-        </div>
-
+      <div className="containerLogo">
+        <div onClick={refreshPage} className="aura-explora-logo">
+          <AuraExploraLogo /></div>
+        <a style={{ position: 'absolute', bottom: '10px', right: '10px', color: 'white', fontSize: '0.4em' }}>About</a>
       </div>
 
-      <div className="cityLegend">
-          <h3>Population per city</h3>
-          <svg className="legend" height="30" width="150">
-            <line x1="20" y1="8" x2="130" y2="8" stroke="#103a9b" strokeWidth="1.5"></line>
-            <circle cx="20" cy="8" r="3" stroke="none" strokeWidth="3" fill="#103a9b" />
-            <circle cx="75" cy="8" r="6" stroke="none" strokeWidth="3" fill="#103a9b" />
-            <circle cx="130" cy="8" r="8" stroke="none" strokeWidth="3" fill="#103a9b" />
-            <text x='0' y='30' fill='white' fontSize='0.6em'>{'<'} 3430</text>
-            <text x='110' y='30' fill='white' fontSize='0.6em'>972 657</text>
-          </svg>
-        </div>
-
       <MapInteractionCSS minScale={1} maxScale={5} showControls={true}>
+
         <svg width={width} height={height}>
           <World
             hovered={hoveredDomain}
@@ -613,11 +525,13 @@ function App() {
             kpClass={kpClass}
             visibleC={visibleC}
             visibleS={visibleS}
-            visibleA={visibleA}
+            visibleA={(date.getDate()==3 && date.getMonth()==1) ? visibleA : false}
             visibleK={visibleK}
             setSelected={setSelectedLocation}
+            selectedStation={selectedLocation}
             setSunset={setSunset}
             dateHistogramSize={dateHistogramSize}
+            originalCloudsArray={cloudsArray}
           />
           <World
             hovered={null}
@@ -639,15 +553,18 @@ function App() {
             kpClass={filteredKPClass}
             visibleC={visibleC}
             visibleS={visibleS}
-            visibleA={visibleA}
+            visibleA={(date.getDate()==3 && date.getMonth()==1) ? visibleA : false}
             visibleK={visibleK}
             setSelected={setSelectedLocation}
+            selectedStation={selectedLocation}
             setSunset={setSunset}
             dateHistogramSize={dateHistogramSize}
+            originalCloudsArray={cloudsArray}
           />
 
         </svg>
       </MapInteractionCSS>
+
       <div className='timelineContainer'>
         <div className='selectWrapper'>
           <select id="selectTimeline" className="dropdown" onChange={changeTimeline}>
@@ -668,18 +585,164 @@ function App() {
               startDate={start}
               endDate={end}
               mode={timelineMode}
+              setSunset={setSunset}
+              dateTime={dateTime(date)}
             />
           </svg>
         </div>
-
-
       </div>
+
+
+      <div className='containerFilters'>
+        <div className="checkboxes">
+          <h1>Filter by layers</h1>
+          <div>
+            <Checkbox className="checkbox" onClickEvent={auroraClick} isChecked={!visibleA} isDisabled={!(date.getDate()==3 && date.getMonth()==1) ? true : false} id="auroraCheckbox" labelText="Current probability of Aurora Borealis" />
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" className="qlogo" width='16px'>
+              <circle r="8px" className='infoClick' />
+              <path d="M504 256c0 136.997-111.043 248-248 248S8 392.997 8 256C8 119.083 119.043 8 256 8s248 111.083 248 248zM262.655 90c-54.497 0-89.255 22.957-116.549 63.758-3.536 5.286-2.353 
+                  12.415 2.715 16.258l34.699 26.31c5.205 3.947 12.621 3.008 16.665-2.122 17.864-22.658 30.113-35.797 57.303-35.797 20.429 0 45.698 
+                  13.148 45.698 32.958 0 14.976-12.363 22.667-32.534 33.976C247.128 238.528 216 254.941 216 296v4c0 6.627 5.373 12 12 12h56c6.627 0 12-5.373 12-12v-1.333c0-28.462 
+                  83.186-29.647 83.186-106.667 0-58.002-60.165-102-116.531-102zM256 338c-25.365 0-46 20.635-46 46 0 25.364 20.635 46 46 46s46-20.636 46-46c0-25.365-20.635-46-46-46z"
+              />
+              <circle className="infoClick" cx="50%" cy="50%" r="50%" onClick={auroraInfoClick} onMouseOver={auroraInfoHover} onMouseLeave={auroraInfoLeave} ></circle>
+            </svg>
+
+            <div id="auroraScale">
+              <AuroraScale
+                onHover={setHoveredValue}
+                lockedValueSetter={handleScaleClickAurora}
+                totalWidth={300}
+                maxHeight={30}
+                labels={["5-20%", "20-40%", "40-60%", "60-80%", "80-100%"]}
+                ids={["a0", "a1", "a2", "a3", "a4"]}
+                scaleTitle="% probability of seeing Aurora Borealis" />
+            </div>
+            {/* <input className="checkbox" type="checkbox" name="stations" id="auroraCheckbox" onClick={() => setVisibleA(!visibleA)} defaultChecked={checked}
+              onChange={() => setChecked(!checked)} />
+              <label className="checkboxLabels" htmlFor="auroraCheckbox">Current probability of Aurora Borealis</label>  */}
+          </div>
+
+          <hr className='line' size="1" width="100%" color="white"></hr>
+          <div>
+            <Checkbox className="checkbox" onClickEvent={kpIndexClick} isChecked={!visibleK} isDisabled={false} id="kpIndexCheckbox" labelText="Kp-index" />
+            <svg className="qlogo" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width='15px' >
+              <path d="M504 256c0 136.997-111.043 248-248 248S8 392.997 8 256C8 119.083 119.043 8 256 8s248 111.083 248 248zM262.655 90c-54.497 0-89.255 22.957-116.549 63.758-3.536 5.286-2.353 
+              12.415 2.715 16.258l34.699 26.31c5.205 3.947 12.621 3.008 16.665-2.122 17.864-22.658 30.113-35.797 57.303-35.797 20.429 0 45.698 
+              13.148 45.698 32.958 0 14.976-12.363 22.667-32.534 33.976C247.128 238.528 216 254.941 216 296v4c0 6.627 5.373 12 12 12h56c6.627 0 12-5.373 12-12v-1.333c0-28.462 
+              83.186-29.647 83.186-106.667 0-58.002-60.165-102-116.531-102zM256 338c-25.365 0-46 20.635-46 46 0 25.364 20.635 46 46 46s46-20.636 46-46c0-25.365-20.635-46-46-46z"/>
+              <circle className="infoClick" cx="50%" cy="50%" r="50%" onClick={kpInfoClick} onMouseOver={kpInfoHover} onMouseLeave={kpInfoLeave}></circle>
+            </svg>
+            <div id="kpScale" className='hidden'>
+              <KPScale
+                onHover={setHoveredValue}
+                lockedValueSetter={handleScaleClickKP}
+                totalWidth={300}
+                maxHeight={30}
+                labels={["1", "2", "3", "4", "5", "6+"]}
+                ids={["kp0", "kp1", "kp2", "kp3", "kp4", "kp5"]}
+                scaleTitle="KP index" />
+              <p>Hovering over the scale will show you the minimum KP value needed to have a possibility of seeing aurora in the highlighted area</p>
+            </div>
+          </div>
+
+          <hr className='line' size="1" width="100%" color="white"></hr>
+          <div>
+            <Checkbox className="checkbox" onClickEvent={cloudClick} isChecked={!visibleC} isDisabled={false} id="cloudCheckbox" labelText="Cloudiness" />
+            <div id="cloudScale" >
+            <CloudScale
+              onHover={setHoveredValue}
+              lockedValueSetter={handleScaleClickClouds}
+              totalWidth={300}
+              maxHeight={30}
+              labels={["0-20%", "20-40%", "40-60%", "60-80%", "80-100%"]}
+              ids={["c0", "c1", "c2", "c3", "c4"]}
+              scaleTitle="% of cloud coverage" />
+            </div>
+          </div>
+
+          <hr className='line' size="1" width="100%" color="white"></hr>
+          <div className="meteoContainer">
+            <Checkbox className="checkbox" onClickEvent={stationClick} isChecked={!visibleS} id="stationCheckbox" labelText="Weather stations" />
+            <svg className="stationIconLegend" width={20} height={20} x={20 / 2} y={20 / 2} viewBox="0 0 194 204" version="1.1" xmlns="http://www.w3.org/2000/svg">
+              <title>Group 3</title>
+              <g id="Page-1" stroke="none" strokeWidth="1" fill="none" fillRule="evenodd">
+                <g id="Group-3" fill="#FFFFFF">
+                  <circle id="Oval" cx="98" cy="24" r="24"></circle>
+                  <circle id="Oval-Copy-9" cx="24" cy="136" r="24"></circle>
+                  <circle id="Oval-Copy-10" cx="170" cy="136" r="24"></circle>
+                  <rect id="Rectangle" x="93" y="39" width="10" height="66"></rect>
+                  <rect id="Rectangle-Copy-38" x="89" y="94" width="18" height="110"></rect>
+                  <rect id="Rectangle-Copy-36" transform="translate(67.000000, 112.000000) rotate(-120.000000) translate(-67.000000, -112.000000) " x="62" y="79" width="10" height="66"></rect>
+                  <rect id="Rectangle-Copy-37" transform="translate(129.000000, 112.000000) scale(-1, 1) rotate(-120.000000) translate(-129.000000, -112.000000) " x="124" y="79" width="10" height="66"></rect>
+                  <rect id="Rectangle" x="67" y="186" width="62" height="18"></rect>
+                </g>
+              </g>
+            </svg>
+            {/* <StationIcon className="stationIconLegend" style="position: absolute" width="20px" height="20px" x={0} y={0}/> */}
+            {/* <input className="checkbox" type="checkbox" name="stations" id="stationsCheckbox" onClick={() => setVisibleS(!visibleS)} defaultChecked={checked}
+              onChange={() => setChecked(!checked)}></input>
+              <label className="checkboxLabels" htmlFor="stationsCheckbox">Meteorological stations stations</label>  */}
+          </div>
+        </div>
+      </div>
+
+      <div className="popup" onClick={kpInfoClick}>
+        <div id="kp" className="containerInfo">
+
+          <div><h3>What is the Kp index?</h3><p>The Kp index is a measurement of geomagnetic activity in Earth’s atmosphere. It can serve as an
+            indicator of whether geomagnetic events (such as an aurora) are likely to happen. Based on its value,
+            it is possible to estimate how far south geomagnetic activity can occur.<br></br><br></br>
+            Learn more at the <a href="https://www.swpc.noaa.gov/">Space Weather Prediction Center </a>
+          </p></div>
+
+        </div>
+      </div>
+      <div className="popup" onClick={auroraInfoClick}>
+        <div id="aurora" className="containerInfo">
+
+          <div><h3>What is the aurora?</h3> <p>Aurora Borealis is a phenomenon which can be seen in the skies around the north pole. It occurs
+            when solar wind particles accelerate into the upper parts
+            of Earth's atmosphere, disturbing the magnetosphere. There has to be darkness and clear skies
+            in order to see the aurora.<br></br><br></br>
+            The probability of seeing aurora computed through the OVATION model, which depends on solar wind
+            velocity and geomagnetic activity. If the solar wind data is not avaiable, an estimation can be made
+            based on the measured Kp index.
+            <br></br><br></br>
+            Learn more at the <a href="https://www.swpc.noaa.gov/">Space Weather Prediction Center </a>
+          </p></div>
+        </div>
+      </div>
+
+      <div className="cityLegend">
+        <h3>Population per city</h3>
+        <svg className="legend" height="30" width="150">
+          <line x1="20" y1="8" x2="130" y2="8" stroke="#103a9b" strokeWidth="1.5"></line>
+          <circle cx="20" cy="8" r="3" stroke="none" strokeWidth="3" fill="#103a9b" />
+          <circle cx="75" cy="8" r="6" stroke="none" strokeWidth="3" fill="#103a9b" />
+          <circle cx="130" cy="8" r="8" stroke="none" strokeWidth="3" fill="#103a9b" />
+          <text x='0' y='30' fill='white' fontSize='0.6em'>{'<'} 3430</text>
+          <text x='110' y='30' fill='white' fontSize='0.6em'>972 657</text>
+        </svg>
+      </div>
+
       <div className="containerDetails">
+        <div>
+        <h3>{date && selectedLocation ? date.toDateString() : ''}</h3>
         <h2>
-          {selectedLocation ? selectedLocation.name : 'Please select a location on the map to view details'} - {date && selectedLocation ? date.toDateString() : ''}
+          {selectedLocation ? cloudsArray.indexOf(selectedLocation) + 1 + "-" + selectedLocation.name : 'Please select a location on the map to view details'}
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 30 30" width={18} fill="#fff" className={selectedLocation ? "" : "hidden"}>
+          <path d="M15,3C8.373,3,3,8.373,3,15c0,6.627,5.373,12,12,12s12-5.373,12-12C27,8.373,21.627,3,15,3z M16.414,15 c0,0,3.139,3.139,3.293,3.293c0.391,0.391,0.391,1.024,0,1.414c-0.391,0.391-1.024,0.391-1.414,0C18.139,19.554,15,16.414,15,16.414 s-3.139,3.139-3.293,3.293c-0.391,0.391-1.024,0.391-1.414,0c-0.391-0.391-0.391-1.024,0-1.414C10.446,18.139,13.586,15,13.586,15 s-3.139-3.139-3.293-3.293c-0.391-0.391-0.391-1.024,0-1.414c0.391-0.391,1.024-0.391,1.414,0C11.861,10.446,15,13.586,15,13.586 s3.139-3.139,3.293-3.293c0.391-0.391,1.024-0.391,1.414,0c0.391,0.391,0.391,1.024,0,1.414C19.554,11.861,16.414,15,16.414,15z"/>
+            <circle cx="50%" cy="50%" r="50%" fillOpacity="0" cursor="pointer" onClick={selectCancle}></circle>
+          </svg>
         </h2>
-        <DayLightTime width={300} sunrise={sunset ? sunset.properties.sunrise : null} sunset={sunset ? sunset.properties.sunset : null} location={selectedLocation} />
-        <svg width={300} height={150} viewBox={'20 0 300 150'} >
+        
+        </div>
+        <DayLightTime width={300} 
+          sunrise={sunset ? sunset.properties.sunrise : null} 
+          sunset={sunset ? sunset.properties.sunset : null} 
+          location={selectedLocation} />
+        <svg className='cloudGraph' width={300} height={150} viewBox={'20 0 300 150'} >
           <DayCloudTime width={300} height={150} date={date} location={selectedLocation} />
         </svg>
 
