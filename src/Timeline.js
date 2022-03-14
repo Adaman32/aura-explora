@@ -110,12 +110,13 @@ export const Timeline = ({kpIndex, selectedLocation, width, height, setDate, cur
         dragArea.on("mousemove", (event) => {
             let point = pointer(event, dragArea.current);
             console.log("p", point);
+            console.log(innerWidth-5);
             if(point[0]<0){
                 selectedDate = xScale.invert(0);
                 setDate(selectedDate);
                 setSunsetSunriseData(selectedDate);
-            }else if(point[0]>innerWidth-2){
-                selectedDate = xScale.invert(innerWidth-2);
+            }else if(point[0]>innerWidth-5){
+                selectedDate = xScale.invert(innerWidth-5);
                 setDate(RoundTime(selectedDate));
                 setSunsetSunriseData(RoundTime(selectedDate));
             }else{
@@ -242,14 +243,6 @@ export const Timeline = ({kpIndex, selectedLocation, width, height, setDate, cur
             return(
                 <g transform={`translate(0, ${yScaleKp(requiredKp)})`}>
                     <line x2={innerWidth} stroke={'red'} strokeWidth="2"/>
-                    <text
-                        className="axis-label"
-                        textAnchor="left"
-                        transform={`translate(${innerWidth}, ${-yAxisLabelOffset})`}
-                        fill='white'
-                        fontSize='0.7em'
-                    ></text>
-                    Minimum required kp-index
                 </g>
             )
         }else{

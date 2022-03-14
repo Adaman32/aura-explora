@@ -50,7 +50,7 @@ function App() {
 
   const [selectedLocation, setSelectedLocation] = useState(null);
   const [sunset, setSunset] = useState(null);
-  const [timelineMode, setTimelineMode] = useState('Cloudiness')
+  const [timelineMode, setTimelineMode] = useState('Cloudiness');
   // if(selectedLocation)console.log(selectedLocation.latitude);
 
   // const [zoomX, setZoomX] = React.useState(1);
@@ -571,15 +571,19 @@ function App() {
             <option value="cloud">Cloudiness</option>
             <option value="kp">Kp-index</option>
           </select>
-          <p>Selecting a location on the map shows the forecast and history for that location on the timeline</p>
+          <p>Selecting a location on the map shows the forecast and history for that location on the timeline (weather station nearest to selected location)</p>
         </div>
         <div className='timelineWrapper'>
-          <svg style={{ transform: 'translate(-50%)' }} width={width * 0.90} height='100%' viewBox={'0 0 ' + width + ' ' + dateHistogramSize * height} className="timelineBottom" >
+          <div className={timelineMode === 'Cloudiness' ? 'hidden' : 'kpIndexLineLabel'}>
+            <hr className={ !selectedLocation ? 'hidden' : ''} style={{ height: '2px', width: '20px', borderWidth: '0', backgroundColor: 'red', marginRight: '10px'}}/>
+            <p className={ !selectedLocation ? 'hidden' : ''} style={{color: 'red'}}> Minimum required kp-index to have a chance of seeing Aurora</p>
+          </div>
+          <svg style={{ transform: 'translate(-50%, 10%)' }} width={width * 0.90} height='100%' viewBox={'0 0 ' + width + ' ' + dateHistogramSize * height} className="timelineBottom" >
             <Timeline
               kpIndex={kpIndex}
               selectedLocation={selectedLocation}
               width={width}
-              height={dateHistogramSize * height}
+              height={dateHistogramSize * height*0.9}
               setDate={setDate}
               currentDate={date}
               startDate={start}
@@ -596,7 +600,7 @@ function App() {
       <div className='containerFilters'>
         <div className="checkboxes">
           <h1>Filter by layers</h1>
-          <div>
+          <div className={!(date.getDate()==3 && date.getMonth()==1) ? 'hidden' : ''}> 
             <Checkbox className="checkbox" onClickEvent={auroraClick} isChecked={!visibleA} isDisabled={!(date.getDate()==3 && date.getMonth()==1) ? true : false} id="auroraCheckbox" labelText="Current probability of Aurora Borealis" />
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" className="qlogo" width='16px'>
               <circle r="8px" className='infoClick' />
@@ -621,6 +625,9 @@ function App() {
             {/* <input className="checkbox" type="checkbox" name="stations" id="auroraCheckbox" onClick={() => setVisibleA(!visibleA)} defaultChecked={checked}
               onChange={() => setChecked(!checked)} />
               <label className="checkboxLabels" htmlFor="auroraCheckbox">Current probability of Aurora Borealis</label>  */}
+          </div>
+          <div className={(date.getDate()==3 && date.getMonth()==1) ? 'hidden' : ''}> 
+              <p className='checkboxLabels'>The current aurora probability is only available for the current day. Predictions for other days can only be made from the KP index.</p>
           </div>
 
           <hr className='line' size="1" width="100%" color="white"></hr>
