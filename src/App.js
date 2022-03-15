@@ -724,7 +724,6 @@ function App() {
       <div className="cityLegend">
         <h3>Population per city</h3>
         <svg className="legend" height="30" width="150">
-          <line x1="20" y1="8" x2="130" y2="8" stroke="#103a9b" strokeWidth="1.5"></line>
           <circle cx="20" cy="8" r="3" stroke="none" strokeWidth="3" fill="#103a9b" />
           <circle cx="75" cy="8" r="6" stroke="none" strokeWidth="3" fill="#103a9b" />
           <circle cx="130" cy="8" r="8" stroke="none" strokeWidth="3" fill="#103a9b" />
@@ -745,10 +744,10 @@ function App() {
         </h2>
         
         </div>
-        <DayLightTime width={300} 
-          sunrise={sunset ? sunset.properties.sunrise : null} 
-          sunset={sunset ? sunset.properties.sunset : null} 
-          location={selectedLocation} />
+          <DayLightTime width={300} 
+            sunrise={sunset ? sunset.properties.sunrise : null} 
+            sunset={sunset ? sunset.properties.sunset : null} 
+            location={selectedLocation} />
         <svg className='cloudGraph' width={300} height={150} viewBox={'20 0 300 150'} >
           <DayCloudTime width={300} height={150} date={date} location={selectedLocation} />
         </svg>

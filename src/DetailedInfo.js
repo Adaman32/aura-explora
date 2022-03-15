@@ -29,16 +29,18 @@ export function DayLightTime({ sunrise, sunset, location, width }) {
     <div className="divDaylight">
       <div className="daylight">
         <div>
-          <SunIcon />
-          <text className="infoDaylight">{(sunrise && location) ? sunriseFormatted[0] + ":" + sunriseFormatted[1] : '--:--'}</text>
+            <SunIcon />
+          
+            <text className="infoDaylight">{(sunrise && location) ? sunriseFormatted[0] + ":" + sunriseFormatted[1] : '--:--'}</text>
         </div>
         <text className="textDaylight">Sunrise</text>
       </div>
 
       <div className="daylight">
         <div>
-          <MoonIcon />
-          <text className="infoDaylight">{(sunset && location) ? sunsetFormatted[0] + ":" + sunsetFormatted[1] : '--:--'}</text>
+            <MoonIcon />
+          
+            <text className="infoDaylight">{(sunset && location) ? sunsetFormatted[0] + ":" + sunsetFormatted[1] : '--:--'}</text>
         </div>
         <text className="textDaylight">Sunset</text>
       </div>
@@ -100,8 +102,6 @@ export function DayCloudTime({ date, location, width, height }) {
   
   const [tooltip, setTooltip] = useState(null);
   const chartRef = useRef();
-  const [tooltipTextX, setTooltipTextX] = useState(null);
-  const [tooltipTextAnchor, setTooltipTextAnchor] = useState(null);
 
   useEffect(() => {
     let chart = select(chartRef.current);
