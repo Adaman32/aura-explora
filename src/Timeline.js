@@ -107,8 +107,6 @@ export const Timeline = ({kpIndex, selectedLocation, width, height, setDate, cur
         dragArea.on("mousemove", (event) => {
             event.preventDefault();
             let point = pointer(event, dragArea.current);
-            console.log("p", point);
-            //console.log(innerWidth-5);
             if(point[0]<0){
                 selectedDate = xScale.invert(0);
                 setDate(selectedDate);
@@ -127,8 +125,6 @@ export const Timeline = ({kpIndex, selectedLocation, width, height, setDate, cur
         dragArea.on("touchmove", (event) => {
             event.preventDefault();
             let point = pointer(event.touches[0], dragArea.current);
-            console.log("p", point);
-            //console.log(innerWidth-5);
             if(point[0]<0){
                 selectedDate = xScale.invert(0);
                 setDate(selectedDate);
