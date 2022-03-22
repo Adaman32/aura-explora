@@ -1,6 +1,10 @@
 import { scaleSqrt, max } from 'd3';
 import React, { useState, useLayoutEffect } from 'react';
-import { MapInteractionCSS } from 'react-map-interaction';
+import { ComposableMap,
+  Geographies,
+  Geography,
+  ZoomableGroup
+} from "react-simple-maps";
 
 import './App.css';
 import { World } from './World';
@@ -15,6 +19,7 @@ import Checkbox from './checkbox';
 import { AuroraScale, CloudScale, KPScale } from './FilterScale';
 import { DayCloudTime, DayLightTime } from './DetailedInfo';
 import { Timeline } from './Timeline';
+import InfoIcon from './images/info-icon';
 
 // const width =  window.innerWidth;
 // const height = window.innerHeight;
@@ -392,8 +397,10 @@ function App() {
 
   var popupkClicked = false;
   var popupaClicked = false;
+  var popuppClicked = false;
   var popupkHovered = false;
   var popupaHovered = false;
+  var popuppHovered = false;
 
   function kpInfoClick() {
 
@@ -418,7 +425,6 @@ function App() {
   }
 
   function auroraInfoClick() {
-
     var popupk = document.getElementById("kp");
     var popupa = document.getElementById("aurora");
 
@@ -435,6 +441,35 @@ function App() {
       popupa.classList.remove("show");
       popupaClicked = false;
       popupaHovered = false;
+    }
+  }
+
+  function populationInfoClick() {
+    var popupp = document.getElementById("population");
+    if(!popuppClicked){
+      popupp.classList.add("show");
+      popuppClicked = true;
+      popuppHovered = false;
+    }else if(!popuppHovered){
+      popupp.classList.remove("show");
+      popuppClicked = false;
+      popuppHovered = false;
+    }
+  }
+
+  function populationInfoHover(){
+    var popupp = document.getElementById("population");
+    if(!popuppClicked && !popuppHovered){
+      popupp.classList.add("show");
+      popuppHovered = true;
+    }
+  }
+
+  function populationInfoLeave(){
+    var popupp = document.getElementById("population");
+    if(popuppHovered){
+      popupp.classList.remove("show");
+      popuppHovered = false;
     }
   }
 
@@ -494,23 +529,32 @@ function App() {
 
   return (
     <>
-
       <div className="containerLogo">
         <div onClick={refreshPage} className="aura-explora-logo">
-          <AuraExploraLogo /></div>
-        <a style={{ position: 'absolute', bottom: '10px', right: '10px', color: 'white', fontSize: '0.4em' }}>About</a>
+          <AuraExploraLogo />
+        </div>
+        <a style={{ position: 'absolute',
+                    bottom: '10px',
+                    right: '10px',
+                    color: 'white',
+                    fontSize: '0.4em', 
+                    textAlign: 'center', 
+                    display: 'flex', 
+                    flexDirection: 'column', 
+                    alignItems: 'center' }}
+        href='about'>
+        <InfoIcon />About</a>
       </div>
 
-      <MapInteractionCSS minScale={1} maxScale={5} showControls={true}>
-
-        <svg width={width} height={height}>
-          <World
+      <div>
+        <ComposableMap width={width} height={height}>
+          <ZoomableGroup minZoom={1} maxZoom={5}>
+          <World id="world"
             hovered={hoveredDomain}
             lockedA={lockedValueA}
             lockedC={lockedValueC}
             lockedK={lockedValueK}
             filtered={true}
-            id="world"
             cities={swedishCities}
             sizeScale={sizeScale}
             fontSizeScale={fontSizeScale}
@@ -533,13 +577,12 @@ function App() {
             dateHistogramSize={dateHistogramSize}
             originalCloudsArray={cloudsArray}
           />
-          <World
+          <World id="world2"
             hovered={null}
             filtered={false}
             lockedA={lockedValueA}
             lockedC={lockedValueC}
             lockedK={lockedValueK}
-            id="world2"
             cities={swedishCities}
             sizeScale={sizeScale}
             fontSizeScale={fontSizeScale}
@@ -561,9 +604,9 @@ function App() {
             dateHistogramSize={dateHistogramSize}
             originalCloudsArray={cloudsArray}
           />
-
-        </svg>
-      </MapInteractionCSS>
+          </ZoomableGroup>
+        </ComposableMap>
+      </div>
 
       <div className='timelineContainer'>
         <div className='selectWrapper'>
@@ -722,7 +765,18 @@ function App() {
       </div>
 
       <div className="cityLegend">
-        <h3>Population per city</h3>
+        <div className="cityLegendText">
+          <h3>Population per city</h3>
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" className="qlogo" width='16px'>
+            <circle r="8px" className='infoClick' />
+            <path d="M504 256c0 136.997-111.043 248-248 248S8 392.997 8 256C8 119.083 119.043 8 256 8s248 111.083 248 248zM262.655 90c-54.497 0-89.255 22.957-116.549 63.758-3.536 5.286-2.353 
+                12.415 2.715 16.258l34.699 26.31c5.205 3.947 12.621 3.008 16.665-2.122 17.864-22.658 30.113-35.797 57.303-35.797 20.429 0 45.698 
+                13.148 45.698 32.958 0 14.976-12.363 22.667-32.534 33.976C247.128 238.528 216 254.941 216 296v4c0 6.627 5.373 12 12 12h56c6.627 0 12-5.373 12-12v-1.333c0-28.462 
+                83.186-29.647 83.186-106.667 0-58.002-60.165-102-116.531-102zM256 338c-25.365 0-46 20.635-46 46 0 25.364 20.635 46 46 46s46-20.636 46-46c0-25.365-20.635-46-46-46z"
+            />
+            <circle className="infoClick" cx="50%" cy="50%" r="50%" onClick={populationInfoClick} onMouseOver={populationInfoHover} onMouseLeave={populationInfoLeave} ></circle>
+          </svg>
+        </div>
         <svg className="legend" height="30" width="150">
           <circle cx="20" cy="8" r="3" stroke="none" strokeWidth="3" fill="#103a9b" />
           <circle cx="75" cy="8" r="6" stroke="none" strokeWidth="3" fill="#103a9b" />
@@ -730,6 +784,24 @@ function App() {
           <text x='0' y='30' fill='white' fontSize='0.6em'>{'<'} 3430</text>
           <text x='110' y='30' fill='white' fontSize='0.6em'>972 657</text>
         </svg>
+      </div>
+
+      <div className="popup" onClick={populationInfoClick}>
+        <div id="population" className="containerInfo">
+          <div>
+            <h3>Why might population size be interesting?</h3>
+            <p>
+              Beyond possibly aiding in your travel plans on the hunt for auroras, 
+              the population size could be an indicator of light pollution caused by city lights. 
+              Similar to how you cannot view the auroras in the daylight, 
+              excess light pollution can also hinder you from viewing them.
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <div className="todayLegend">
+        <h3>Today: 2022-02-03</h3>
       </div>
 
       <div className="containerDetails">

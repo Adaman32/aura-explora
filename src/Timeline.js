@@ -91,26 +91,44 @@ export const Timeline = ({kpIndex, selectedLocation, width, height, setDate, cur
         let dragArea = select(dragAreaRef.current);
         let dragger = select(draggerRef.current);
 
-        dragger.on("mousedown", () => {
+        dragger.on("mousedown touchstart ", () => {
             dragListener(dragArea);
         });
 
-        dragArea.on("mouseup", ()=> {
+        dragArea.on("mouseup mouseleave touchend touchcancel", ()=> {
             removeDragListener(dragArea);
         });
-
-        dragArea.on("mouseleave", () => {
-            removeDragListener(dragArea);
-        })
 
     }, [selectedLocation, width]);
 
     const dragListener = (dragArea) => {
         let selectedDate;
+        
         dragArea.on("mousemove", (event) => {
+            event.preventDefault();
             let point = pointer(event, dragArea.current);
             console.log("p", point);
-            console.log(innerWidth-5);
+            //console.log(innerWidth-5);
+            if(point[0]<0){
+                selectedDate = xScale.invert(0);
+                setDate(selectedDate);
+                setSunsetSunriseData(selectedDate);
+            }else if(point[0]>innerWidth-5){
+                selectedDate = xScale.invert(innerWidth-5);
+                setDate(RoundTime(selectedDate));
+                setSunsetSunriseData(RoundTime(selectedDate));
+            }else{
+                let selectedDate = xScale.invert(point[0]);
+                setDate(RoundTime(selectedDate));
+                setSunsetSunriseData(RoundTime(selectedDate));
+            }
+        });
+
+        dragArea.on("touchmove", (event) => {
+            event.preventDefault();
+            let point = pointer(event.touches[0], dragArea.current);
+            console.log("p", point);
+            //console.log(innerWidth-5);
             if(point[0]<0){
                 selectedDate = xScale.invert(0);
                 setDate(selectedDate);
@@ -128,7 +146,7 @@ export const Timeline = ({kpIndex, selectedLocation, width, height, setDate, cur
     };
 
     const removeDragListener = (dragArea) =>{
-        dragArea.on("mousemove", null) 
+        dragArea.on("mousemove touchmove", null);
     }
 
     const AxisBottomDate = ({ xScale, innerHeight, innerWidth, tickFormat, tickOffset, numTicks, stroke, onDateClick}) =>

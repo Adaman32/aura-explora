@@ -31,18 +31,18 @@ export function DayLightTime({ sunrise, sunset, location, width }) {
         <div>
             <SunIcon />
           
-            <text className="infoDaylight">{(sunrise && location) ? sunriseFormatted[0] + ":" + sunriseFormatted[1] : '--:--'}</text>
+            <span className="infoDaylight">{(sunrise && location) ? sunriseFormatted[0] + ":" + sunriseFormatted[1] : '--:--'}</span>
         </div>
-        <text className="textDaylight">Sunrise</text>
+        <span className="textDaylight">Sunrise</span>
       </div>
 
       <div className="daylight">
         <div>
             <MoonIcon />
           
-            <text className="infoDaylight">{(sunset && location) ? sunsetFormatted[0] + ":" + sunsetFormatted[1] : '--:--'}</text>
+            <span className="infoDaylight">{(sunset && location) ? sunsetFormatted[0] + ":" + sunsetFormatted[1] : '--:--'}</span>
         </div>
-        <text className="textDaylight">Sunset</text>
+        <span className="textDaylight">Sunset</span>
       </div>
 
 
